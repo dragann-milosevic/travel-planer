@@ -1,0 +1,7 @@
+.qr-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 0.5rem;
+}
