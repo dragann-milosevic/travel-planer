@@ -1,0 +1,28 @@
+.custom-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.custom-modal-dialog {
+    margin: 0;
+    width: 100%;
+    max-width: 500px;
+}
+
+.custom-modal-dialog.modal-lg {
+    max-width: 800px;
+}
+
+.custom-modal-dialog.modal-sm {
+    max-width: 350px;
+}
