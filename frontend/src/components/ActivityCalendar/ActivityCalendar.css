@@ -1,0 +1,12 @@
+.activity-calendar .rbc-toolbar button {
+    color: #0d6efd;
+}
+
+.activity-calendar .rbc-toolbar button.rbc-active {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.activity-calendar .rbc-today {
+    background-color: #e7f1ff;
+}
