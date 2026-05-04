@@ -1,0 +1,12 @@
+body {
+    background-color: #f5f7fa;
+    min-height: 100vh;
+}
+
+.nav-link.active {
+    font-weight: 600;
+}
+
+.card-title {
+    color: #212529;
+}

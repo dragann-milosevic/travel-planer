@@ -1,0 +1,9 @@
+{
+  "short_name": "Travel Planer",
+  "name": "Travel Planer",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0d6efd",
+  "background_color": "#ffffff"
+}
