@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Common.Enums
 {
-    internal class ExpenseCategory
+    public enum ExpenseCategory
     {
+        Transport = 1,
+        Accommodation = 2,
+        Food = 3,
+        Tickets = 4,
+        Shopping = 5,
+        Other = 6
     }
 }
