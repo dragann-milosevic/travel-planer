@@ -1,5 +1,3 @@
-import urlService from "../urlService/urlService";
-
 function buildHeaders(includeAuth = true, contentType = "application/json") {
     const headers = {};
     if (contentType) headers["Content-Type"] = contentType;
@@ -20,9 +18,8 @@ async function parseResponse(response) {
     catch { return null; }
 }
 
-async function request(method, path, body = null, includeAuth = true) {
-    const api = urlService.getApiUrl();
-    const url = path.startsWith("http") ? path : `${api}${path}`;
+async function request(method, baseApiUrl, path, body = null, includeAuth = true) {
+    const url = path.startsWith("http") ? path : `${baseApiUrl}${path}`;
 
     const options = {
         method,
@@ -54,10 +51,10 @@ async function request(method, path, body = null, includeAuth = true) {
 }
 
 const httpService = {
-    get: (path, includeAuth = true) => request("GET", path, null, includeAuth),
-    post: (path, body, includeAuth = true) => request("POST", path, body, includeAuth),
-    put: (path, body, includeAuth = true) => request("PUT", path, body, includeAuth),
-    del: (path, includeAuth = true) => request("DELETE", path, null, includeAuth)
+    get: (baseApiUrl, path, includeAuth = true) => request("GET", baseApiUrl, path, null, includeAuth),
+    post: (baseApiUrl, path, body, includeAuth = true) => request("POST", baseApiUrl, path, body, includeAuth),
+    put: (baseApiUrl, path, body, includeAuth = true) => request("PUT", baseApiUrl, path, body, includeAuth),
+    del: (baseApiUrl, path, includeAuth = true) => request("DELETE", baseApiUrl, path, null, includeAuth)
 };
 
 export default httpService;

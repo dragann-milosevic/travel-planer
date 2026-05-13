@@ -1,19 +1,32 @@
+function appendSlash(url) {
+    if (!url) return "";
+    return url.endsWith("/") ? url : url + "/";
+}
+
 const urlService = {
-    getBaseUrl() {
-        const base = process.env.REACT_APP_API_BASE_URL;
+    getAuthBaseUrl() {
+        const base = process.env.REACT_APP_AUTH_BASE_URL;
         if (!base) {
-            console.error("REACT_APP_API_BASE_URL nije definisan u .env fajlu.");
+            console.error("REACT_APP_AUTH_BASE_URL nije definisan u .env fajlu.");
             return "";
         }
-        return base.endsWith("/") ? base : base + "/";
+        return appendSlash(base);
     },
-    getApiUrl() {
+    getTravelBaseUrl() {
+        const base = process.env.REACT_APP_TRAVEL_BASE_URL;
+        if (!base) {
+            console.error("REACT_APP_TRAVEL_BASE_URL nije definisan u .env fajlu.");
+            return "";
+        }
+        return appendSlash(base);
+    },
+    getAuthApiUrl() {
         const prefix = process.env.REACT_APP_API_PREFIX || "api/";
-        const cleanPrefix = prefix.endsWith("/") ? prefix : prefix + "/";
-        return this.getBaseUrl() + cleanPrefix;
+        return this.getAuthBaseUrl() + appendSlash(prefix);
     },
-    getUploadsUrl() {
-        return this.getBaseUrl() + "uploads/";
+    getTravelApiUrl() {
+        const prefix = process.env.REACT_APP_API_PREFIX || "api/";
+        return this.getTravelBaseUrl() + appendSlash(prefix);
     }
 };
 

@@ -1,32 +1,39 @@
 import httpService from "../httpService/httpService";
+import urlService from "../urlService/urlService";
 import User from "../../models/User";
 
 const userService = {
     async getAll() {
-        const result = await httpService.get("users");
+        const api = urlService.getAuthApiUrl();
+        const result = await httpService.get(api, "users");
         if (!result.ok) return [];
         return (result.data || []).map(User.fromDto);
     },
 
     async getById(id) {
-        const result = await httpService.get(`users/${id}`);
+        const api = urlService.getAuthApiUrl();
+        const result = await httpService.get(api, `users/${id}`);
         if (!result.ok) return null;
         return User.fromDto(result.data);
     },
 
     async getMe() {
-        const result = await httpService.get("users/me");
+        const api = urlService.getAuthApiUrl();
+        const result = await httpService.get(api, "users/me");
         if (!result.ok) return null;
         return User.fromDto(result.data);
     },
 
     async updateRole(id, role) {
-        const result = await httpService.put(`users/${id}/role`, { role });
+        const api = urlService.getAuthApiUrl();
+        const body = { role: role === "Admin" ? 2 : 1 };
+        const result = await httpService.put(api, `users/${id}/role`, body);
         return { success: result.ok, error: result.error };
     },
 
     async remove(id) {
-        const result = await httpService.del(`users/${id}`);
+        const api = urlService.getAuthApiUrl();
+        const result = await httpService.del(api, `users/${id}`);
         return { success: result.ok, error: result.error };
     }
 };
