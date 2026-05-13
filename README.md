@@ -1,194 +1,163 @@
 # Travel Planer
 
-Web aplikacija za planiranje putovanja. Korisnik može na jednom mjestu da
-organizuje sve važne informacije o putovanju: osnovne podatke, destinacije,
-dnevni plan aktivnosti, troškove i budžet, checklist, kao i dijeljenje plana
-sa drugim korisnicima.
+Web aplikacija za planiranje putovanja sa mikroservisnom arhitekturom na **Microsoft Service Fabric** platformi i React frontend-om. Korisnik može da organizuje putovanje od početne ideje do detaljnog plana po danima, troškovima, checklist-i i dijeljenju plana sa drugima.
 
-## Tehnologije
-
-### Frontend
-- React 19 (Create React App)
-- React Router DOM 6
-- Bootstrap 5 + Bootstrap Icons
-- Recharts (grafikon budžeta)
-- React Big Calendar (kalendarski prikaz aktivnosti)
-- qrcode.react (QR kod za dijeljenje)
-- Context API (upravljanje stanjem autentikacije)
-- jwt-decode (dekodiranje JWT tokena)
-
-### Backend (planirano)
-- Mikroservisna arhitektura na Microsoft Service Fabric platformi
-- Stateless i stateful servisi
-- ASP.NET Core Web API u svakom servisu
-- Microsoft SQL Server (Entity Framework Core, code-first migracije)
-- JWT autentikacija sa potpisom i validacijom isteka
-
-## Struktura repozitorija
+## Arhitektura
 
 ```
 travel-planer/
-├── frontend/                  # React aplikacija
-│   ├── public/
-│   ├── src/
-│   │   ├── components/        # Komponente (svaka u svom folderu)
-│   │   ├── pages/             # Stranice
-│   │   ├── services/          # HTTP servisi (injektuju se u komponente)
-│   │   ├── context/           # AuthContext, PrivateRoute
-│   │   └── models/            # Modeli na prednjoj strani sa validacijom
-│   ├── .env                   # REACT_APP_API_BASE_URL i REACT_APP_API_PREFIX
-│   └── package.json
-├── backend/                   # Service Fabric solucija (radi se na Windows-u)
-└── README.md
+├── frontend/                React aplikacija
+│
+└── TravelPlanerSF/          Service Fabric solution
+    ├── TravelPlanerSF/      .sfproj (application package)
+    ├── Common/              Shared library: DTOs, enums, Remoting interfaces
+    ├── AuthService/         Stateless ASP.NET Core — auth + users
+    ├── TravelPlanService/   Stateless ASP.NET Core — plans, destinations,
+    │                        activities, expenses, checklist, sharing
+    └── NotificationService/ Stateful — share tokens (Reliable Dictionary)
+                             + audit log (Reliable Queue) via Remoting
 ```
 
-## Pokretanje frontenda
+### Mapiranje na vežbe
 
-Frontend je u potpunosti razvijen i može se pokrenuti na bilo kojoj platformi
-(macOS, Linux, Windows).
+| Vežba | Pokriva |
+|---|---|
+| **V3** Stateless servisi + Remoting | AuthService i TravelPlanService kao stateless ASP.NET Core; TravelPlanService poziva NotificationService preko `ServiceProxy.Create<INotificationService>` |
+| **V4** Stateful servisi + Reliable Collections | NotificationService čuva share tokene u `IReliableDictionary<string, ShareLinkDTO>` |
+| **V5** EDA + Reliable Queue | Audit eventovi se publikuju u `IReliableQueue<AuditEventDTO>` koji se obrađuje u `RunAsync` background petlji |
 
-### Preduslovi
-- Node.js 18+ (preporučuje se 20)
-- npm 9+
+### Tehnologije
 
-### Instalacija
+**Frontend** — React 19 (CRA), React Router 6, Bootstrap 5, recharts (budget chart), react-big-calendar (activity calendar), qrcode.react (sharing), Context API, jwt-decode.
+
+**Backend** — .NET 8, Microsoft Service Fabric SDK 11.x, ASP.NET Core 8, Entity Framework Core 9 (code-first), SQL Server Express, JWT (HS256), BCrypt.
+
+## Pokretanje
+
+### Preduslovi (Windows)
+- Visual Studio 2022 (Azure development workload)
+- Microsoft Service Fabric SDK + Runtime
+- Local Service Fabric cluster (1-Node mode dovoljan za dev)
+- SQL Server Express
+- Node.js 20+ za frontend
+- `dotnet ef` global tool: `dotnet tool install --global dotnet-ef`
+
+### Backend (Windows)
+
+1. Otvori **Visual Studio kao Administrator**
+2. Otvori `TravelPlanerSF/TravelPlanerSF.sln`
+3. Provjeri da je **Service Fabric Local Cluster** pokrenut (status u SF Tray-u ili http://localhost:19080/Explorer)
+4. Provjeri connection string-ove u `AuthService/appsettings.json` i `TravelPlanService/appsettings.json` — pokazuju na `localhost\SQLEXPRESS`. Baze se kreiraju automatski (auto-migrate na startup-u).
+5. Postavi `TravelPlanerSF` (.sfproj) kao **Startup Project**
+6. **F5** za debug — VS će packagirati i deployati aplikaciju u local cluster
+
+Servisi će biti dostupni na:
+- AuthService: http://localhost:8839/
+- TravelPlanService: http://localhost:8596/
+- NotificationService: interno preko Remoting-a (`fabric:/TravelPlanerSF/NotificationService`)
+- SF Explorer: http://localhost:19080/Explorer
+
+#### Ručno pokretanje EF migracija (ako auto-migrate ne radi)
+
+```powershell
+cd TravelPlanerSF\AuthService
+dotnet ef migrations add Initial
+dotnet ef database update
+
+cd ..\TravelPlanService
+dotnet ef migrations add Initial
+dotnet ef database update
+```
+
+### Frontend (bilo koji OS)
+
 ```bash
 cd frontend
 npm install
+npm start
 ```
 
-### Konfiguracija
-Editujte `frontend/.env` da pokazuje na URL backend-a:
+`.env` već pokazuje na lokalne SF portove:
 ```
-REACT_APP_API_BASE_URL=http://localhost:5145/
+REACT_APP_AUTH_BASE_URL=http://localhost:8839/
+REACT_APP_TRAVEL_BASE_URL=http://localhost:8596/
 REACT_APP_API_PREFIX=api/
 ```
 
-### Razvoj
-```bash
-npm start
-```
-Aplikacija se otvara na `http://localhost:3000`.
+Aplikacija se otvara na http://localhost:3000.
 
-### Produkcijski build
-```bash
-npm run build
-```
-
-## Pokretanje backenda
-
-Backend se razvija na Windows mašini sa instaliranim Service Fabric SDK-om
-(`microsoft-service-fabric`, `microsoft-service-fabric-sdk`,
-Visual Studio sa Service Fabric Tools-om). Lokalni Service Fabric cluster nije
-podržan na macOS-u/Linux-u, te se ovaj dio mora pokretati na Windows-u
-(direktno ili u Windows VM-u).
-
-Detaljnija uputstva za podizanje SQL Server-a i deployment Service Fabric
-solucije biće dodata u `backend/README.md` kada backend bude implementiran.
-
-## Funkcionalnosti
-
-- Registracija i prijava korisnika (JWT, role User/Admin)
-- CRUD nad planovima putovanja
-- CRUD nad destinacijama u okviru plana
-- CRUD nad aktivnostima sa kalendarskim prikazom
-- Evidencija troškova po kategorijama, sa pregledom budžeta i grafikonom
-- Checklist / packing lista sa označavanjem završenih stavki
-- Dijeljenje plana putovanja preko QR koda (VIEW i EDIT pristup)
-- Administratorska stranica za upravljanje korisnicima
-- Validacija svih unosa na klijentu (datumi, budžet, obavezna polja)
-
-## Arhitektura prednje strane
-
-- **Komponente** — svaka u svom folderu (`components/<Ime>/<Ime>.js[.css]`)
-- **Stranice** — odvojene od komponenti (`pages/<Ime>/<Ime>Page.js`)
-- **HTTP pozivi** — isključivo kroz servise iz `services/`. Komponente
-  nikada ne pozivaju `fetch` direktno.
-- **Modeli** — `models/` sadrži `TravelPlan`, `Destination`, `Activity`,
-  `Expense`, `ChecklistItem`, `User` itd. Svaki model ima `fromDto()` factory
-  i `validate()` metod (mapiranje DTO ↔ frontend model).
-- **State** — `Context API` (`context/authContext.js`) za autentikaciju i
-  ulogu; lokalni `useState` u komponentama za UI stanje.
-- **Konfiguracija** — `.env` (URL backend-a, REST prefix), čita ga
-  `services/urlService/`. Komponente nikada direktno ne čitaju `process.env`.
-
-## Očekivani backend ugovor
-
-Frontend gađa sljedeće rute (REST konvencija — resursi u množini, pluralizovani):
+## Backend ugovor (REST rute)
 
 ```
-POST   /api/auth/register
-POST   /api/auth/login
-GET    /api/users
-GET    /api/users/me
-GET    /api/users/{id}
-PUT    /api/users/{id}/role
-DELETE /api/users/{id}
+POST   /api/auth/login                                            (AuthService)
+POST   /api/auth/register                                         (AuthService)
+GET    /api/users                  [Admin]                        (AuthService)
+GET    /api/users/me                                              (AuthService)
+PUT    /api/users/{id}/role        [Admin]                        (AuthService)
+DELETE /api/users/{id}             [Admin]                        (AuthService)
 
-GET    /api/travel-plans
-GET    /api/travel-plans/{id}
-POST   /api/travel-plans
-PUT    /api/travel-plans/{id}
-DELETE /api/travel-plans/{id}
+GET    /api/travel-plans                                          (TravelPlanService)
+GET    /api/travel-plans/{id}                                     (TravelPlanService)
+POST   /api/travel-plans                                          (TravelPlanService)
+PUT    /api/travel-plans/{id}                                     (TravelPlanService)
+DELETE /api/travel-plans/{id}                                     (TravelPlanService)
 
-GET    /api/travel-plans/{planId}/destinations
-GET    /api/travel-plans/{planId}/destinations/{id}
+GET    /api/travel-plans/{planId}/destinations                    (TravelPlanService)
 POST   /api/travel-plans/{planId}/destinations
 PUT    /api/travel-plans/{planId}/destinations/{id}
 DELETE /api/travel-plans/{planId}/destinations/{id}
 
-GET    /api/travel-plans/{planId}/activities
-GET    /api/travel-plans/{planId}/activities/{id}
+GET    /api/travel-plans/{planId}/activities                      (TravelPlanService)
 POST   /api/travel-plans/{planId}/activities
 PUT    /api/travel-plans/{planId}/activities/{id}
 DELETE /api/travel-plans/{planId}/activities/{id}
 
-GET    /api/travel-plans/{planId}/expenses
-GET    /api/travel-plans/{planId}/expenses/{id}
-GET    /api/travel-plans/{planId}/expenses/summary
+GET    /api/travel-plans/{planId}/expenses                        (TravelPlanService)
 POST   /api/travel-plans/{planId}/expenses
 PUT    /api/travel-plans/{planId}/expenses/{id}
 DELETE /api/travel-plans/{planId}/expenses/{id}
 
-GET    /api/travel-plans/{planId}/checklist-items
+GET    /api/travel-plans/{planId}/checklist-items                 (TravelPlanService)
 POST   /api/travel-plans/{planId}/checklist-items
 PUT    /api/travel-plans/{planId}/checklist-items/{id}
 DELETE /api/travel-plans/{planId}/checklist-items/{id}
 
-GET    /api/travel-plans/{planId}/shares
+GET    /api/travel-plans/{planId}/shares                          (TravelPlanService → Remoting → NotificationService)
 POST   /api/travel-plans/{planId}/shares
 DELETE /api/travel-plans/{planId}/shares/{id}
-GET    /api/shared-plans/{token}
+
+GET    /api/shared-plans/{token}    [Anonymous]                   (TravelPlanService → Remoting → NotificationService)
 ```
-
-Login odgovor može biti čist JWT string ili `{ "token": "..." }` —
-frontend podržava oba.
-
-## Validacije
-
-- Krajnji datum putovanja/destinacije ne može biti prije početnog
-- Budžet i iznos troška ne mogu biti negativni
-- Email mora biti u validnom formatu
-- Lozinka mora imati najmanje 6 karaktera
-- Korisničko ime najmanje 3 karaktera
-- Datum aktivnosti mora biti unutar trajanja plana
 
 ## Bezbjednost
 
-- Lozinke se moraju heširati na backend-u (ne čuvaju se u plain-text obliku)
-- JWT potpis i istek se moraju validirati pri svakom zahtjevu
-- `PrivateRoute` štiti rute na klijentskoj strani; backend provjerava token
-  kao izvor istine
-- Brisanje plana automatski briše sve povezane entitete (kaskadno brisanje)
+- Lozinke se heširaju **BCrypt**-om prije čuvanja
+- JWT potpis (HMAC SHA256) i istek se validiraju na svakom zahtjevu (`ValidateLifetime=true`)
+- `[Authorize]` štiti sve rute osim `/api/auth/*`, `/api/shared-plans/{token}`
+- `[Authorize(Roles = "Admin")]` štiti administracijske akcije
 
-## Predaja
+## Validacije
 
-Pored koda, prilažu se:
-- Use Case dijagram (`UseCaseDiagram.svg` ili `.png`)
-- Dijagram arhitekture sistema
-- Ovaj README
+- Krajnji datum (plana, destinacije) ne može biti prije početnog
+- Budžet i iznos troška ne mogu biti negativni
+- Email mora biti u validnom formatu
+- Lozinka najmanje 6 karaktera
+- Korisničko ime najmanje 3 karaktera
+- Cascading delete — brisanje plana automatski briše destinacije, aktivnosti, troškove, checklist stavke (`OnDelete(DeleteBehavior.Cascade)`) i opoziva sve share tokene
 
----
+## Funkcionalnosti
 
-Frontend je razvijen na macOS-u, backend (Service Fabric) se razvija na
-Windows mašini.
+- Registracija + login (JWT)
+- CRUD planovi putovanja
+- CRUD destinacije unutar plana
+- CRUD aktivnosti sa kalendarskim prikazom
+- CRUD troškova + grafikon budžeta po kategorijama
+- Checklist / packing lista
+- Dijeljenje plana preko QR koda (VIEW / EDIT pristup)
+- Admin panel za upravljanje korisnicima
+
+## Razvoj
+
+- Frontend razvijen na macOS-u
+- Backend razvijen i debugiran na Windows-u (Service Fabric SDK je Windows-only)
+- Repozitorijum koristi Git za sinhronizaciju, sve commite ide preko Mac-a (jedinstveni autor)
