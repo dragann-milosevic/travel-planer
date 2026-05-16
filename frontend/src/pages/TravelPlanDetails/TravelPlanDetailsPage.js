@@ -52,6 +52,11 @@ function TravelPlanDetailsPage() {
 
     const [tab, setTab] = useState(TABS.Overview);
 
+    useEffect(() => {
+        setInfo("");
+        setError("");
+    }, [tab]);
+
     const [editingPlan, setEditingPlan] = useState(false);
     const [editingDestination, setEditingDestination] = useState(null);
     const [showDestinationForm, setShowDestinationForm] = useState(false);
