@@ -55,12 +55,12 @@ namespace TravelPlanService.Repository
                 .HasForeignKey(c => c.TravelPlanId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Activity → Destination (optional FK, set null on delete)
+            // Activity → Destination (optional FK)
             modelBuilder.Entity<Activity>()
                 .HasOne(a => a.Destination)
                 .WithMany()
                 .HasForeignKey(a => a.DestinationId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

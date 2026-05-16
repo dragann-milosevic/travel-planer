@@ -55,6 +55,17 @@ namespace TravelPlanService.Repository
         {
             var destination = await _context.Destinations.FindAsync(id);
             if (destination == null) return false;
+
+            // Null out the FK on activities pointing to this destination first
+            // (FK is NoAction at SQL level to avoid multiple cascade paths).
+            var linkedActivities = await _context.Activities
+                .Where(a => a.DestinationId == id)
+                .ToListAsync();
+            foreach (var act in linkedActivities)
+            {
+                act.DestinationId = null;
+            }
+
             _context.Destinations.Remove(destination);
             await _context.SaveChangesAsync();
             return true;
