@@ -69,6 +69,16 @@ dotnet ef migrations add Initial
 dotnet ef database update
 ```
 
+#### Dozvole za Service Fabric (NETWORK SERVICE)
+
+Service Fabric servisi se izvršavaju pod `NT AUTHORITY\NETWORK SERVICE` Windows korisnikom,
+koji po defaultu nema pristup novokreiranim bazama. Pokreni skriptu **`TravelPlanerSF/scripts/grant-sf-permissions.sql`**
+jednom u SSMS-u (otvori i F5) ili preko terminala:
+
+```powershell
+sqlcmd -S localhost\SQLEXPRESS -E -i TravelPlanerSF\scripts\grant-sf-permissions.sql
+```
+
 ### Frontend (bilo koji OS)
 
 ```bash
