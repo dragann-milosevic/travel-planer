@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Arial, sans-serif">
+  <title>Travel Planer — System Architecture</title>
+
+  <defs>
+    <style>
+      .diagram-title { font-size: 22px; font-weight: 700; text-anchor: middle; fill: #1a1a1a; }
+      .layer-title { font-size: 14px; font-weight: 700; text-anchor: middle; fill: #555; }
+
+      .frontend-box { fill: #e3f2fd; stroke: #1976d2; stroke-width: 2; rx: 8; }
+      .sf-cluster-box { fill: #fff8e1; stroke: #f9a825; stroke-width: 2; stroke-dasharray: 6,4; rx: 8; }
+      .stateless-box { fill: #e8f5e9; stroke: #2e7d32; stroke-width: 2; rx: 6; }
+      .stateful-box { fill: #fce4ec; stroke: #c2185b; stroke-width: 2; rx: 6; }
+      .common-box { fill: #f3e5f5; stroke: #6a1b9a; stroke-width: 2; rx: 6; }
+      .db-box { fill: #ede7f6; stroke: #4527a0; stroke-width: 2; rx: 6; }
+      .db-engine-box { fill: #d1c4e9; stroke: #4527a0; stroke-width: 2; stroke-dasharray: 6,4; rx: 8; }
+
+      .title-text { font-size: 14px; font-weight: 700; text-anchor: middle; fill: #1a1a1a; }
+      .sub-text { font-size: 11px; text-anchor: middle; fill: #555; }
+      .small-text { font-size: 10px; text-anchor: middle; fill: #555; }
+      .item-text { font-size: 11px; text-anchor: middle; fill: #1a1a1a; }
+
+      .http-arrow { stroke: #1976d2; stroke-width: 2; fill: none; }
+      .remoting-arrow { stroke: #c2185b; stroke-width: 2; fill: none; stroke-dasharray: 6,3; }
+      .db-arrow { stroke: #4527a0; stroke-width: 2; fill: none; }
+      .ref-arrow { stroke: #6a1b9a; stroke-width: 1.5; fill: none; stroke-dasharray: 3,3; }
+
+      .label-bg { fill: white; stroke: none; }
+      .label-text { font-size: 10px; fill: #1a1a1a; }
+      .label-text-blue { font-size: 10px; fill: #1976d2; font-weight: 600; }
+      .label-text-pink { font-size: 10px; fill: #c2185b; font-weight: 600; }
+      .label-text-purple { font-size: 10px; fill: #4527a0; font-weight: 600; }
+    </style>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#1976d2"/>
+    </marker>
+    <marker id="arrow-pink" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#c2185b"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#4527a0"/>
+    </marker>
+    <marker id="arrow-purple-light" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 0, 10 5, 0 10" fill="#6a1b9a"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="35" class="diagram-title">Travel Planer — System Architecture</text>
+
+  <!-- =========================== -->
+  <!-- LAYER 1: Frontend            -->
+  <!-- =========================== -->
+  <text x="600" y="75" class="layer-title">Presentation Layer</text>
+  <rect x="400" y="90" width="400" height="100" class="frontend-box"/>
+  <text x="600" y="120" class="title-text">React Frontend (CRA)</text>
+  <text x="600" y="140" class="sub-text">Components · Pages · Services · Context API · Models</text>
+  <text x="600" y="158" class="sub-text">Bootstrap 5 · React Router 6 · Recharts · React Big Calendar · qrcode.react</text>
+  <text x="600" y="175" class="small-text">http://localhost:3000</text>
+
+  <!-- =========================== -->
+  <!-- LAYER 2: Service Fabric       -->
+  <!-- =========================== -->
+  <text x="600" y="240" class="layer-title">Business Layer — Microsoft Service Fabric Cluster (fabric:/TravelPlanerSF)</text>
+  <rect x="80" y="260" width="1040" height="320" class="sf-cluster-box"/>
+
+  <!-- AuthService -->
+  <rect x="120" y="305" width="270" height="220" class="stateless-box"/>
+  <text x="255" y="330" class="title-text">AuthService</text>
+  <text x="255" y="348" class="small-text">Stateless ASP.NET Core (Kestrel)</text>
+  <text x="255" y="362" class="small-text">http://localhost:8839 · /api/auth, /api/users</text>
+  <line x1="135" y1="375" x2="375" y2="375" stroke="#2e7d32" stroke-width="1"/>
+  <text x="255" y="395" class="item-text">Controllers (Auth, Users)</text>
+  <text x="255" y="412" class="item-text">Business Services (DI)</text>
+  <text x="255" y="429" class="item-text">UserRepository · AuthDbContext</text>
+  <text x="255" y="446" class="item-text">BCrypt (password hash)</text>
+  <text x="255" y="463" class="item-text">JWT TokenGenerator (HS256)</text>
+  <text x="255" y="487" class="small-text" font-style="italic">issues JWT with</text>
+  <text x="255" y="500" class="small-text" font-style="italic">nameid · unique_name · role</text>
+
+  <!-- TravelPlanService -->
+  <rect x="465" y="305" width="270" height="220" class="stateless-box"/>
+  <text x="600" y="330" class="title-text">TravelPlanService</text>
+  <text x="600" y="348" class="small-text">Stateless ASP.NET Core (Kestrel)</text>
+  <text x="600" y="362" class="small-text">http://localhost:8596 · /api/travel-plans, /api/shared-plans</text>
+  <line x1="480" y1="375" x2="720" y2="375" stroke="#2e7d32" stroke-width="1"/>
+  <text x="600" y="395" class="item-text">Controllers (Plans, Destinations,</text>
+  <text x="600" y="409" class="item-text">Activities, Expenses, Checklist,</text>
+  <text x="600" y="423" class="item-text">Shares, SharedPlans)</text>
+  <text x="600" y="442" class="item-text">5 Business Services + Sharing</text>
+  <text x="600" y="459" class="item-text">5 Repositories · DbContext</text>
+  <text x="600" y="478" class="item-text">JWT Bearer validation</text>
+  <text x="600" y="497" class="small-text" font-style="italic">cascade delete on plan removal</text>
+
+  <!-- NotificationService -->
+  <rect x="810" y="305" width="270" height="220" class="stateful-box"/>
+  <text x="945" y="330" class="title-text">NotificationService</text>
+  <text x="945" y="348" class="small-text">Stateful Service (Remoting only)</text>
+  <text x="945" y="362" class="small-text">fabric:/TravelPlanerSF/NotificationService</text>
+  <line x1="825" y1="375" x2="1065" y2="375" stroke="#c2185b" stroke-width="1"/>
+  <text x="945" y="395" class="item-text">CreateServiceRemotingReplicaListeners</text>
+  <text x="945" y="414" class="item-text">IReliableDictionary&lt;string, ShareLinkDTO&gt;</text>
+  <text x="945" y="428" class="small-text">(share tokens, 30-day TTL)</text>
+  <text x="945" y="448" class="item-text">IReliableQueue&lt;AuditEventDTO&gt;</text>
+  <text x="945" y="462" class="small-text">(consumed by RunAsync worker)</text>
+  <text x="945" y="487" class="small-text" font-style="italic">implements INotificationService : IService</text>
+  <text x="945" y="500" class="small-text" font-style="italic">V4 Stateful + V5 EDA pattern</text>
+
+  <!-- Common library (shared) -->
+  <rect x="380" y="535" width="440" height="40" class="common-box"/>
+  <text x="600" y="558" class="title-text">Common Class Library — DTOs · Enums · INotificationService (Remoting contract)</text>
+
+  <!-- =========================== -->
+  <!-- LAYER 3: Database             -->
+  <!-- =========================== -->
+  <text x="600" y="630" class="layer-title">Data Layer</text>
+  <rect x="200" y="650" width="800" height="170" class="db-engine-box"/>
+  <text x="600" y="675" class="title-text">Microsoft SQL Server Express (localhost\SQLEXPRESS)</text>
+
+  <rect x="260" y="690" width="280" height="100" class="db-box"/>
+  <text x="400" y="715" class="title-text">TravelPlanerAuth</text>
+  <text x="400" y="734" class="sub-text">Tables:</text>
+  <text x="400" y="752" class="item-text">Users · __EFMigrationsHistory</text>
+  <text x="400" y="772" class="small-text" font-style="italic">EF Core 9 code-first migrations</text>
+
+  <rect x="660" y="690" width="280" height="100" class="db-box"/>
+  <text x="800" y="715" class="title-text">TravelPlanerCore</text>
+  <text x="800" y="734" class="sub-text">Tables:</text>
+  <text x="800" y="750" class="item-text">TravelPlans · Destinations · Activities</text>
+  <text x="800" y="764" class="item-text">Expenses · ChecklistItems · __EFMigrationsHistory</text>
+  <text x="800" y="785" class="small-text" font-style="italic">cascade delete · decimal(18,2) precision</text>
+
+  <!-- =========================== -->
+  <!-- Arrows                        -->
+  <!-- =========================== -->
+
+  <!-- Frontend -> AuthService -->
+  <path d="M 480 190 Q 350 240 255 305" class="http-arrow" marker-end="url(#arrow-blue)"/>
+  <rect x="280" y="220" width="155" height="34" class="label-bg"/>
+  <text x="357" y="234" class="label-text-blue" text-anchor="middle">HTTP + JWT (login/register)</text>
+  <text x="357" y="248" class="label-text" text-anchor="middle">REACT_APP_AUTH_BASE_URL</text>
+
+  <!-- Frontend -> TravelPlanService -->
+  <line x1="600" y1="190" x2="600" y2="305" class="http-arrow" marker-end="url(#arrow-blue)"/>
+  <rect x="525" y="220" width="150" height="34" class="label-bg"/>
+  <text x="600" y="234" class="label-text-blue" text-anchor="middle">HTTP + Bearer JWT</text>
+  <text x="600" y="248" class="label-text" text-anchor="middle">REACT_APP_TRAVEL_BASE_URL</text>
+
+  <!-- TravelPlanService -> NotificationService (Remoting) -->
+  <path d="M 735 415 Q 770 415 810 415" class="remoting-arrow" marker-end="url(#arrow-pink)"/>
+  <text x="773" y="408" class="label-text-pink" text-anchor="middle">Remoting</text>
+  <text x="773" y="431" class="label-text" text-anchor="middle">ServiceProxy</text>
+
+  <!-- AuthService -> AuthDB -->
+  <path d="M 255 525 Q 255 600 380 690" class="db-arrow" marker-end="url(#arrow-purple)"/>
+  <rect x="200" y="600" width="120" height="34" class="label-bg"/>
+  <text x="260" y="614" class="label-text-purple" text-anchor="middle">EF Core 9</text>
+  <text x="260" y="628" class="label-text" text-anchor="middle">SqlConnection</text>
+
+  <!-- TravelPlanService -> TravelPlanCoreDB -->
+  <path d="M 600 525 Q 600 600 770 690" class="db-arrow" marker-end="url(#arrow-purple)"/>
+  <rect x="650" y="600" width="120" height="34" class="label-bg"/>
+  <text x="710" y="614" class="label-text-purple" text-anchor="middle">EF Core 9</text>
+  <text x="710" y="628" class="label-text" text-anchor="middle">cascade delete</text>
+
+  <!-- Services -> Common (project references) -->
+  <line x1="255" y1="525" x2="430" y2="535" class="ref-arrow" marker-end="url(#arrow-purple-light)"/>
+  <line x1="600" y1="525" x2="600" y2="535" class="ref-arrow" marker-end="url(#arrow-purple-light)"/>
+  <line x1="945" y1="525" x2="770" y2="535" class="ref-arrow" marker-end="url(#arrow-purple-light)"/>
+
+  <!-- =========================== -->
+  <!-- Legend                        -->
+  <!-- =========================== -->
+  <g transform="translate(80, 845)">
+    <text x="0" y="0" font-size="12" font-weight="700">Legenda:</text>
+
+    <line x1="80" y1="-3" x2="120" y2="-3" class="http-arrow" marker-end="url(#arrow-blue)"/>
+    <text x="125" y="0" class="label-text-blue">HTTP (Kestrel) + JWT</text>
+
+    <line x1="295" y1="-3" x2="335" y2="-3" class="remoting-arrow" marker-end="url(#arrow-pink)"/>
+    <text x="340" y="0" class="label-text-pink">Service Fabric Remoting</text>
+
+    <line x1="525" y1="-3" x2="565" y2="-3" class="db-arrow" marker-end="url(#arrow-purple)"/>
+    <text x="570" y="0" class="label-text-purple">EF Core → SQL Server</text>
+
+    <line x1="775" y1="-3" x2="815" y2="-3" class="ref-arrow" marker-end="url(#arrow-purple-light)"/>
+    <text x="820" y="0" font-size="10" fill="#6a1b9a" font-weight="600">.csproj reference (Common)</text>
+  </g>
+
+  <g transform="translate(80, 875)">
+    <rect x="0" y="-10" width="14" height="14" class="stateless-box"/>
+    <text x="20" y="0" font-size="11">Stateless ASP.NET Core</text>
+
+    <rect x="180" y="-10" width="14" height="14" class="stateful-box"/>
+    <text x="200" y="0" font-size="11">Stateful (Reliable Collections + Remoting)</text>
+
+    <rect x="450" y="-10" width="14" height="14" class="common-box"/>
+    <text x="470" y="0" font-size="11">Class Library (shared)</text>
+
+    <rect x="625" y="-10" width="14" height="14" class="db-box"/>
+    <text x="645" y="0" font-size="11">SQL Server database</text>
+
+    <rect x="790" y="-10" width="14" height="14" class="frontend-box"/>
+    <text x="810" y="0" font-size="11">React frontend (browser)</text>
+  </g>
+
+</svg>
