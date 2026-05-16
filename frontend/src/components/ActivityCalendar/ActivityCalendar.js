@@ -17,10 +17,9 @@ const localizer = dateFnsLocalizer({
 
 function combineDateTime(date, time) {
     if (!date) return new Date();
-    if (!time) return new Date(date);
-    try {
-        return new Date(`${date}T${time}`);
-    } catch { return new Date(date); }
+    const dateOnly = String(date).substring(0, 10);
+    const timeStr = (time && /^\d{1,2}:\d{2}$/.test(time)) ? time : "00:00";
+    return new Date(`${dateOnly}T${timeStr}:00`);
 }
 
 function statusColor(status) {
