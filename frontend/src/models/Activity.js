@@ -12,6 +12,11 @@ export const ActivityStatusLabel = {
     4: "Otkazano"
 };
 
+function toDateInputValue(value) {
+    if (!value) return "";
+    return String(value).substring(0, 10);
+}
+
 class Activity {
     constructor({
         id = 0,
@@ -29,7 +34,7 @@ class Activity {
         this.travelPlanId = travelPlanId;
         this.destinationId = destinationId;
         this.name = name;
-        this.date = date;
+        this.date = toDateInputValue(date);
         this.time = time;
         this.location = location;
         this.description = description;
@@ -64,14 +69,20 @@ class Activity {
         if (!this.date)
             errors.date = "Datum aktivnosti je obavezan.";
         if (planStartDate && this.date &&
-            new Date(this.date) < new Date(planStartDate))
+            new Date(this.date) < new Date(toDateInputValue(planStartDate)))
             errors.date = "Datum aktivnosti je prije početka putovanja.";
         if (planEndDate && this.date &&
-            new Date(this.date) > new Date(planEndDate))
+            new Date(this.date) > new Date(toDateInputValue(planEndDate)))
             errors.date = "Datum aktivnosti je nakon kraja putovanja.";
-        if (this.estimatedCost !== null && this.estimatedCost !== undefined &&
-            !isNaN(this.estimatedCost) && Number(this.estimatedCost) < 0)
+
+        const costStr = this.estimatedCost === null || this.estimatedCost === undefined
+            ? ""
+            : String(this.estimatedCost).trim();
+        if (costStr !== "" && isNaN(Number(costStr)))
+            errors.estimatedCost = "Trošak mora biti broj.";
+        else if (costStr !== "" && Number(costStr) < 0)
             errors.estimatedCost = "Trošak ne može biti negativan.";
+
         if (![ActivityStatus.Planned, ActivityStatus.Booked,
               ActivityStatus.Completed, ActivityStatus.Cancelled].includes(Number(this.status)))
             errors.status = "Nevažeći status.";

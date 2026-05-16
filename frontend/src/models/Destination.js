@@ -1,3 +1,8 @@
+function toDateInputValue(value) {
+    if (!value) return "";
+    return String(value).substring(0, 10);
+}
+
 class Destination {
     constructor({
         id = 0,
@@ -12,8 +17,8 @@ class Destination {
         this.travelPlanId = travelPlanId;
         this.name = name;
         this.location = location;
-        this.arrivalDate = arrivalDate;
-        this.departureDate = departureDate;
+        this.arrivalDate = toDateInputValue(arrivalDate);
+        this.departureDate = toDateInputValue(departureDate);
         this.description = description;
     }
 
@@ -48,10 +53,10 @@ class Destination {
             new Date(this.departureDate) < new Date(this.arrivalDate))
             errors.departureDate = "Datum odlaska ne može biti prije datuma dolaska.";
         if (planStartDate && this.arrivalDate &&
-            new Date(this.arrivalDate) < new Date(planStartDate))
+            new Date(this.arrivalDate) < new Date(toDateInputValue(planStartDate)))
             errors.arrivalDate = "Datum dolaska je prije početka putovanja.";
         if (planEndDate && this.departureDate &&
-            new Date(this.departureDate) > new Date(planEndDate))
+            new Date(this.departureDate) > new Date(toDateInputValue(planEndDate)))
             errors.departureDate = "Datum odlaska je nakon kraja putovanja.";
         return errors;
     }

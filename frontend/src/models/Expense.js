@@ -16,6 +16,11 @@ export const ExpenseCategoryLabel = {
     6: "Ostalo"
 };
 
+function toDateInputValue(value) {
+    if (!value) return "";
+    return String(value).substring(0, 10);
+}
+
 class Expense {
     constructor({
         id = 0,
@@ -31,7 +36,7 @@ class Expense {
         this.name = name;
         this.category = category;
         this.amount = amount;
-        this.date = date;
+        this.date = toDateInputValue(date);
         this.description = description;
     }
 
@@ -56,9 +61,10 @@ class Expense {
         const errors = {};
         if (!this.name || this.name.trim().length === 0)
             errors.name = "Naziv troška je obavezan.";
-        if (this.amount === null || this.amount === undefined || isNaN(this.amount))
-            errors.amount = "Iznos je obavezan.";
-        else if (Number(this.amount) < 0)
+        const amountStr = this.amount === null || this.amount === undefined ? "" : String(this.amount).trim();
+        if (amountStr === "" || isNaN(Number(amountStr)))
+            errors.amount = "Iznos je obavezan i mora biti broj.";
+        else if (Number(amountStr) < 0)
             errors.amount = "Iznos ne može biti negativan.";
         if (!this.date)
             errors.date = "Datum je obavezan.";

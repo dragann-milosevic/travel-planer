@@ -1,3 +1,26 @@
+function toDateInputValue(value) {
+    if (!value) return "";
+    return String(value).substring(0, 10);
+}
+
+function isToday(dateStr) {
+    if (!dateStr) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const d = new Date(dateStr);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime() === today.getTime();
+}
+
+function isPast(dateStr) {
+    if (!dateStr) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const d = new Date(dateStr);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime() < today.getTime();
+}
+
 class TravelPlan {
     constructor({
         id = 0,
@@ -16,8 +39,8 @@ class TravelPlan {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = toDateInputValue(startDate);
+        this.endDate = toDateInputValue(endDate);
         this.budget = budget;
         this.notes = notes;
         this.ownerId = ownerId;
@@ -57,14 +80,18 @@ class TravelPlan {
             errors.name = "Naziv mora imati najviše 100 karaktera.";
         if (!this.startDate)
             errors.startDate = "Početni datum je obavezan.";
+        else if (this.id === 0 && isPast(this.startDate) && !isToday(this.startDate))
+            errors.startDate = "Početni datum ne može biti u prošlosti.";
         if (!this.endDate)
             errors.endDate = "Krajnji datum je obavezan.";
         if (this.startDate && this.endDate &&
             new Date(this.endDate) < new Date(this.startDate))
             errors.endDate = "Krajnji datum ne može biti prije početnog datuma.";
-        if (this.budget === null || this.budget === undefined || isNaN(this.budget))
-            errors.budget = "Budžet je obavezan.";
-        else if (Number(this.budget) < 0)
+
+        const budgetStr = this.budget === null || this.budget === undefined ? "" : String(this.budget).trim();
+        if (budgetStr === "" || isNaN(Number(budgetStr)))
+            errors.budget = "Budžet je obavezan i mora biti broj.";
+        else if (Number(budgetStr) < 0)
             errors.budget = "Budžet ne može biti negativan.";
         return errors;
     }
