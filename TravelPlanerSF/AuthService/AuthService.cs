@@ -24,10 +24,7 @@ using AuthService.Utils;
 
 namespace AuthService
 {
-    /// <summary>
-    /// Stateless ASP.NET Core service hosted in Service Fabric.
-    /// Handles authentication (login, register) and user management (admin).
-    /// </summary>
+    // Stateless ASP.NET Core service: handles authentication and user management.
     internal sealed class AuthService : StatelessService
     {
         public AuthService(StatelessServiceContext context)

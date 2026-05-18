@@ -5,10 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace TravelPlanService.Repository
 {
-    /// <summary>
-    /// Used by EF Core CLI tools (dotnet ef migrations / database update) at design time.
-    /// Runtime DbContext registration happens in TravelPlanService.cs inside the Service Fabric host.
-    /// </summary>
+    // Design-time factory used by 'dotnet ef' CLI; runtime DbContext is registered in TravelPlanService.cs.
     public class TravelPlanDbContextFactory : IDesignTimeDbContextFactory<TravelPlanDbContext>
     {
         public TravelPlanDbContext CreateDbContext(string[] args)

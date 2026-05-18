@@ -15,12 +15,7 @@ using Common.Interfaces;
 
 namespace NotificationService
 {
-    /// <summary>
-    /// Stateful service that:
-    /// - Stores share tokens in a Reliable Dictionary (V4 pattern)
-    /// - Processes audit events from a Reliable Queue (V5 EDA pattern)
-    /// - Exposes operations to other services via Service Fabric Remoting (V3 pattern)
-    /// </summary>
+    // Stateful service: share tokens in Reliable Dictionary, audit events in Reliable Queue, exposed via Remoting.
     internal sealed class NotificationService : StatefulService, INotificationService
     {
         private const string SharesDictionaryName = "shares";
@@ -35,10 +30,7 @@ namespace NotificationService
             return this.CreateServiceRemotingReplicaListeners();
         }
 
-        // ============================================================
-        // Share token operations (Reliable Dictionary)
-        // ============================================================
-
+        // Share token operations stored in Reliable Dictionary.
         public async Task<ShareLinkDTO> CreateShareTokenAsync(long travelPlanId, ShareAccessType accessType)
         {
             var shares = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, ShareLinkDTO>>(SharesDictionaryName);
@@ -170,10 +162,7 @@ namespace NotificationService
             return tokensToRemove.Count;
         }
 
-        // ============================================================
-        // Audit log operations (Reliable Queue, V5 EDA pattern)
-        // ============================================================
-
+        // Enqueue audit event into Reliable Queue for async processing.
         public async Task PublishAuditEventAsync(AuditEventDTO auditEvent)
         {
             var queue = await this.StateManager.GetOrAddAsync<IReliableQueue<AuditEventDTO>>(AuditQueueName);
@@ -185,10 +174,7 @@ namespace NotificationService
             }
         }
 
-        // ============================================================
-        // Background worker — processes audit queue
-        // ============================================================
-
+        // Background worker that drains the audit queue.
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
             var queue = await this.StateManager.GetOrAddAsync<IReliableQueue<AuditEventDTO>>(AuditQueueName);

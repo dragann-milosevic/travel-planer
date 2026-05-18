@@ -23,12 +23,7 @@ using TravelPlanService.Services;
 
 namespace TravelPlanService
 {
-    /// <summary>
-    /// Stateless ASP.NET Core service hosted in Service Fabric.
-    /// Handles all travel-plan related resources: plans, destinations,
-    /// activities, expenses, checklist items, plus share endpoints
-    /// (which delegate token storage to NotificationService via Remoting).
-    /// </summary>
+    // Stateless ASP.NET Core service: travel plans, destinations, activities, expenses, checklist, and sharing.
     internal sealed class TravelPlanService : StatelessService
     {
         public TravelPlanService(StatelessServiceContext context)

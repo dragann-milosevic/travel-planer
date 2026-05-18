@@ -5,10 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AuthService.Repository
 {
-    /// <summary>
-    /// Used by EF Core CLI tools (dotnet ef migrations / database update) at design time.
-    /// Runtime DbContext registration happens in AuthService.cs inside the Service Fabric host.
-    /// </summary>
+    // Design-time factory used by 'dotnet ef' CLI; runtime DbContext is registered in AuthService.cs.
     public class AuthDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
     {
         public AuthDbContext CreateDbContext(string[] args)

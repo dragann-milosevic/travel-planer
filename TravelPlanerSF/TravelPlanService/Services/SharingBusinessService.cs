@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Common.DTOs;
 using Common.Enums;
@@ -10,11 +11,7 @@ using TravelPlanService.Interfaces;
 
 namespace TravelPlanService.Services
 {
-    /// <summary>
-    /// Business service for plan sharing.
-    /// Persists token state in NotificationService (Stateful, Reliable Dictionary)
-    /// via Service Fabric Remoting (V3 pattern).
-    /// </summary>
+    // Sharing logic: persists tokens in NotificationService (stateful) via Remoting.
     public class SharingBusinessService : ISharingService
     {
         private readonly ITravelPlansService _travelPlansService;
@@ -25,9 +22,10 @@ namespace TravelPlanService.Services
             _travelPlansService = travelPlansService;
         }
 
+        // NotificationService uses UniformInt64Partition; partition key is required by ServiceProxy.
         private INotificationService GetProxy()
         {
-            return ServiceProxy.Create<INotificationService>(_notificationServiceUri);
+            return ServiceProxy.Create<INotificationService>(_notificationServiceUri, new ServicePartitionKey(0));
         }
 
         public async Task<List<ShareLinkDTO>> GetSharesForPlanAsync(long travelPlanId)

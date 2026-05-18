@@ -5,10 +5,7 @@ using TravelPlanService.Interfaces;
 
 namespace TravelPlanService.Controllers
 {
-    /// <summary>
-    /// Public endpoint for accessing a plan via a share token.
-    /// No authentication required — token presence is the auth.
-    /// </summary>
+    // Public endpoint for accessing a plan via a share token; no JWT required.
     [ApiController]
     [Route("api/shared-plans")]
     [AllowAnonymous]

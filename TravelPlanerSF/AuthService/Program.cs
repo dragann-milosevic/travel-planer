@@ -8,9 +8,7 @@ namespace AuthService
 {
     internal static class Program
     {
-        /// <summary>
-        /// This is the entry point of the service host process.
-        /// </summary>
+        // Entry point of the service host process.
         private static void Main()
         {
             try
