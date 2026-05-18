@@ -107,6 +107,7 @@ namespace TravelPlanService
                         builder.Services.AddScoped<IExpensesService, ExpensesBusinessService>();
                         builder.Services.AddScoped<IChecklistItemsService, ChecklistItemsBusinessService>();
                         builder.Services.AddScoped<ISharingService, SharingBusinessService>();
+                        builder.Services.AddScoped<ISharedEditService, SharedEditBusinessService>();
 
                         // Controllers + Swagger
                         builder.Services.AddControllers();
