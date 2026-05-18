@@ -42,7 +42,7 @@
   </defs>
 
   <!-- Title -->
-  <text x="600" y="40" class="diagram-title">Travel Planer — Arhitektura sistema</text>
+  <text x="600" y="40" class="diagram-title">Arhitektura sistema</text>
 
   <!-- ===================================================== -->
   <!-- LAYER 1: Frontend (wide enough to align over services) -->

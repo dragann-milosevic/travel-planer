@@ -37,7 +37,7 @@
     </marker>
   </defs>
 
-  <text x="600" y="40" class="diagram-title">Travel Planer — Use Case Diagram</text>
+  <text x="600" y="40" class="diagram-title">Use Case dijagram</text>
 
   <!-- System boundary -->
   <rect x="200" y="80" width="850" height="870" class="system-box"/>
@@ -207,7 +207,7 @@
   </g>
 
   <text x="60" y="1050" font-size="10" fill="#64748b" font-style="italic">
-    Aktor povezan sa lijevom ivicom sekcije — može koristiti sve use case-ove unutar te sekcije.
+    Aktor povezan sa levom ivicom sekcije može koristiti sve use case-ove unutar te sekcije. Admin nasleđuje sve User-ove dozvole, User sve Guest-ove (UML actor generalization).
   </text>
 
 </svg>
