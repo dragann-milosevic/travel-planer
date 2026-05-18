@@ -3,6 +3,28 @@ import { ExpenseCategoryLabel } from "../../models/Expense";
 
 const COLORS = ["#0d6efd", "#198754", "#ffc107", "#dc3545", "#6f42c1", "#0dcaf0"];
 
+const RADIAN = Math.PI / 180;
+
+function renderPieLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent }) {
+    if (percent < 0.05) return null;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.55;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    return (
+        <text
+            x={x}
+            y={y}
+            fill="white"
+            textAnchor="middle"
+            dominantBaseline="central"
+            fontSize="12"
+            fontWeight="600"
+        >
+            {`${Math.round(percent * 100)}%`}
+        </text>
+    );
+}
+
 function BudgetSummary({ budget, expenses }) {
     const totalSpent = expenses.reduce((sum, e) => sum + Number(e.amount || 0), 0);
     const remaining = Number(budget) - totalSpent;
@@ -67,11 +89,7 @@ function BudgetSummary({ budget, expenses }) {
                                         cy="45%"
                                         outerRadius={70}
                                         labelLine={false}
-                                        label={({ percent }) =>
-                                            percent > 0.05
-                                                ? `${Math.round(percent * 100)}%`
-                                                : ""
-                                        }
+                                        label={renderPieLabel}
                                     >
                                         {chartData.map((_, idx) => (
                                             <Cell
