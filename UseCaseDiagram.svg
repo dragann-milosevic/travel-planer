@@ -1,233 +1,213 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" font-family="Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1080" font-family="Arial, sans-serif">
   <title>Travel Planer — Use Case Diagram</title>
 
   <defs>
     <style>
       .diagram-title { font-size: 24px; font-weight: 700; text-anchor: middle; fill: #0f172a; }
-      .system-title { font-size: 15px; font-weight: 700; text-anchor: middle; fill: #0f172a; }
+      .system-title { font-size: 16px; font-weight: 700; text-anchor: middle; fill: #0f172a; }
 
       .actor-label { font-size: 13px; font-weight: 600; text-anchor: middle; fill: #0f172a; }
-      .actor { fill: white; stroke: #0f172a; stroke-width: 2; }
+      .actor { fill: white; stroke: #0f172a; stroke-width: 2; stroke-linecap: round; }
 
       .system-box { fill: #fafafa; stroke: #0f172a; stroke-width: 2; rx: 10; }
 
       .section-box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 4,3; rx: 6; }
+      .subsection-box { fill: #f8fafc; stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 3,2; rx: 4; }
       .section-label { font-size: 12px; font-weight: 700; fill: #475569; letter-spacing: 0.4px; }
+      .subsection-label { font-size: 10px; font-weight: 600; fill: #64748b; font-style: italic; }
 
       .use-case { fill: #fef3c7; stroke: #d97706; stroke-width: 1.5; }
       .use-case-admin { fill: #fee2e2; stroke: #dc2626; stroke-width: 1.5; }
       .use-case-shared { fill: #dbeafe; stroke: #2563eb; stroke-width: 1.5; }
       .use-case-text { font-size: 11px; text-anchor: middle; fill: #0f172a; }
+      .use-case-text-small { font-size: 10px; text-anchor: middle; fill: #0f172a; }
 
-      .link-guest { stroke: #059669; stroke-width: 1.3; fill: none; }
-      .link-user { stroke: #d97706; stroke-width: 1.3; fill: none; }
-      .link-admin { stroke: #dc2626; stroke-width: 1.3; fill: none; }
-      .link-external { stroke: #2563eb; stroke-width: 1.3; fill: none; }
+      .link-guest { stroke: #059669; stroke-width: 1.6; fill: none; }
+      .link-user { stroke: #d97706; stroke-width: 1.6; fill: none; }
+      .link-admin { stroke: #dc2626; stroke-width: 1.6; fill: none; }
+      .link-external { stroke: #2563eb; stroke-width: 1.6; fill: none; }
 
-      .extends-arrow { stroke: #6b7280; stroke-width: 1.3; fill: none; stroke-dasharray: 5,3; }
+      .extends-arrow { stroke: #6b7280; stroke-width: 1.4; fill: none; stroke-dasharray: 5,3; }
       .extends-label { font-size: 10px; fill: #6b7280; font-style: italic; }
     </style>
 
     <marker id="extends-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-      <polygon points="0 0, 10 5, 0 10" fill="#6b7280"/>
+      <polygon points="0 0, 10 5, 0 10" fill="none" stroke="#6b7280" stroke-width="1.4"/>
     </marker>
   </defs>
 
   <text x="600" y="40" class="diagram-title">Travel Planer — Use Case Diagram</text>
 
-  <!-- ===================================================== -->
-  <!-- Actors (left column)                                   -->
-  <!-- ===================================================== -->
-
-  <!-- Guest -->
-  <g transform="translate(40, 100)">
-    <circle cx="40" cy="20" r="14" class="actor"/>
-    <line x1="40" y1="34" x2="40" y2="65" class="actor" stroke-linecap="round"/>
-    <line x1="22" y1="45" x2="58" y2="45" class="actor" stroke-linecap="round"/>
-    <line x1="40" y1="65" x2="22" y2="92" class="actor" stroke-linecap="round"/>
-    <line x1="40" y1="65" x2="58" y2="92" class="actor" stroke-linecap="round"/>
-    <text x="40" y="112" class="actor-label" fill="#059669">Guest</text>
-  </g>
-
-  <!-- User (extends Guest) -->
-  <g transform="translate(40, 360)">
-    <circle cx="40" cy="20" r="14" class="actor"/>
-    <line x1="40" y1="34" x2="40" y2="65" class="actor" stroke-linecap="round"/>
-    <line x1="22" y1="45" x2="58" y2="45" class="actor" stroke-linecap="round"/>
-    <line x1="40" y1="65" x2="22" y2="92" class="actor" stroke-linecap="round"/>
-    <line x1="40" y1="65" x2="58" y2="92" class="actor" stroke-linecap="round"/>
-    <text x="40" y="112" class="actor-label" fill="#d97706">User</text>
-  </g>
-
-  <!-- Admin (extends User) -->
-  <g transform="translate(40, 760)">
-    <circle cx="40" cy="20" r="14" class="actor"/>
-    <line x1="40" y1="34" x2="40" y2="65" class="actor" stroke-linecap="round"/>
-    <line x1="22" y1="45" x2="58" y2="45" class="actor" stroke-linecap="round"/>
-    <line x1="40" y1="65" x2="22" y2="92" class="actor" stroke-linecap="round"/>
-    <line x1="40" y1="65" x2="58" y2="92" class="actor" stroke-linecap="round"/>
-    <text x="40" y="112" class="actor-label" fill="#dc2626">Admin</text>
-  </g>
-
-  <!-- External Viewer (right) -->
-  <g transform="translate(1080, 580)">
-    <circle cx="40" cy="20" r="14" class="actor"/>
-    <line x1="40" y1="34" x2="40" y2="65" class="actor" stroke-linecap="round"/>
-    <line x1="22" y1="45" x2="58" y2="45" class="actor" stroke-linecap="round"/>
-    <line x1="40" y1="65" x2="22" y2="92" class="actor" stroke-linecap="round"/>
-    <line x1="40" y1="65" x2="58" y2="92" class="actor" stroke-linecap="round"/>
-    <text x="40" y="112" class="actor-label" fill="#2563eb">External</text>
-    <text x="40" y="128" class="actor-label" fill="#2563eb">Viewer</text>
-  </g>
-
-  <!-- Extends arrows between actors -->
-  <line x1="80" y1="250" x2="80" y2="350" class="extends-arrow" marker-end="url(#extends-arrow)"/>
-  <text x="92" y="305" class="extends-label">«extends»</text>
-
-  <line x1="80" y1="510" x2="80" y2="750" class="extends-arrow" marker-end="url(#extends-arrow)"/>
-  <text x="92" y="630" class="extends-label">«extends»</text>
-
-  <!-- ===================================================== -->
-  <!-- System boundary                                        -->
-  <!-- ===================================================== -->
-  <rect x="200" y="80" width="850" height="900" class="system-box"/>
+  <!-- System boundary -->
+  <rect x="200" y="80" width="850" height="870" class="system-box"/>
   <text x="625" y="106" class="system-title">Travel Planer System</text>
 
-  <!-- ===================================================== -->
-  <!-- Section: Authentication (Guest)                        -->
-  <!-- ===================================================== -->
-  <rect x="240" y="130" width="770" height="100" class="section-box"/>
-  <text x="260" y="155" class="section-label">AUTHENTICATION</text>
+  <!-- Section 1: AUTHENTICATION -->
+  <rect x="240" y="130" width="770" height="90" class="section-box"/>
+  <text x="260" y="152" class="section-label">AUTHENTICATION</text>
 
-  <ellipse cx="430" cy="190" rx="100" ry="22" class="use-case"/>
-  <text x="430" y="194" class="use-case-text">Register</text>
+  <ellipse cx="430" cy="185" rx="85" ry="22" class="use-case"/>
+  <text x="430" y="189" class="use-case-text">Register</text>
 
-  <ellipse cx="820" cy="190" rx="100" ry="22" class="use-case"/>
-  <text x="820" y="194" class="use-case-text">Login</text>
+  <ellipse cx="780" cy="185" rx="85" ry="22" class="use-case"/>
+  <text x="780" y="189" class="use-case-text">Login</text>
 
-  <!-- ===================================================== -->
-  <!-- Section: Travel Plans (User)                           -->
-  <!-- ===================================================== -->
-  <rect x="240" y="250" width="770" height="120" class="section-box"/>
-  <text x="260" y="275" class="section-label">TRAVEL PLANS</text>
+  <!-- Section 2: TRAVEL PLANS -->
+  <rect x="240" y="240" width="770" height="100" class="section-box"/>
+  <text x="260" y="262" class="section-label">TRAVEL PLANS</text>
 
-  <ellipse cx="370" cy="320" rx="95" ry="22" class="use-case"/>
-  <text x="370" y="324" class="use-case-text">View plans</text>
+  <ellipse cx="335" cy="300" rx="75" ry="22" class="use-case"/>
+  <text x="335" y="304" class="use-case-text">View plans</text>
 
-  <ellipse cx="580" cy="320" rx="95" ry="22" class="use-case"/>
-  <text x="580" y="324" class="use-case-text">Create plan</text>
+  <ellipse cx="505" cy="300" rx="75" ry="22" class="use-case"/>
+  <text x="505" y="304" class="use-case-text">Create plan</text>
 
-  <ellipse cx="790" cy="320" rx="105" ry="22" class="use-case"/>
-  <text x="790" y="324" class="use-case-text">Edit / Delete plan</text>
+  <ellipse cx="690" cy="300" rx="90" ry="22" class="use-case"/>
+  <text x="690" y="304" class="use-case-text">Edit / Delete plan</text>
 
-  <!-- ===================================================== -->
-  <!-- Section: Destinations & Activities                     -->
-  <!-- ===================================================== -->
-  <rect x="240" y="390" width="770" height="120" class="section-box"/>
-  <text x="260" y="415" class="section-label">DESTINATIONS &amp; ACTIVITIES</text>
+  <ellipse cx="890" cy="300" rx="85" ry="22" class="use-case"/>
+  <text x="890" y="304" class="use-case-text">Generate PDF</text>
 
-  <ellipse cx="370" cy="460" rx="105" ry="22" class="use-case"/>
-  <text x="370" y="464" class="use-case-text">Manage destinations</text>
+  <!-- Section 3: DESTINATIONS & ACTIVITIES -->
+  <rect x="240" y="360" width="770" height="90" class="section-box"/>
+  <text x="260" y="382" class="section-label">DESTINATIONS &amp; ACTIVITIES</text>
 
-  <ellipse cx="600" cy="460" rx="105" ry="22" class="use-case"/>
-  <text x="600" y="464" class="use-case-text">Manage activities</text>
+  <ellipse cx="375" cy="420" rx="105" ry="22" class="use-case"/>
+  <text x="375" y="424" class="use-case-text">Manage destinations</text>
 
-  <ellipse cx="830" cy="460" rx="105" ry="22" class="use-case"/>
-  <text x="830" y="464" class="use-case-text">View calendar</text>
+  <ellipse cx="615" cy="420" rx="100" ry="22" class="use-case"/>
+  <text x="615" y="424" class="use-case-text">Manage activities</text>
 
-  <!-- ===================================================== -->
-  <!-- Section: Finances                                      -->
-  <!-- ===================================================== -->
-  <rect x="240" y="530" width="770" height="100" class="section-box"/>
-  <text x="260" y="555" class="section-label">FINANCES</text>
+  <ellipse cx="845" cy="420" rx="90" ry="22" class="use-case"/>
+  <text x="845" y="424" class="use-case-text">View calendar</text>
 
-  <ellipse cx="430" cy="595" rx="105" ry="22" class="use-case"/>
-  <text x="430" y="599" class="use-case-text">Track expenses</text>
+  <!-- Section 4: FINANCES -->
+  <rect x="240" y="470" width="770" height="90" class="section-box"/>
+  <text x="260" y="492" class="section-label">FINANCES</text>
 
-  <ellipse cx="820" cy="595" rx="115" ry="22" class="use-case"/>
-  <text x="820" y="599" class="use-case-text">View budget summary</text>
+  <ellipse cx="410" cy="530" rx="100" ry="22" class="use-case"/>
+  <text x="410" y="534" class="use-case-text">Track expenses</text>
 
-  <!-- ===================================================== -->
-  <!-- Section: Checklist                                     -->
-  <!-- ===================================================== -->
-  <rect x="240" y="650" width="770" height="80" class="section-box"/>
-  <text x="260" y="675" class="section-label">CHECKLIST</text>
+  <ellipse cx="720" cy="530" rx="115" ry="22" class="use-case"/>
+  <text x="720" y="534" class="use-case-text">View budget summary</text>
 
-  <ellipse cx="625" cy="710" rx="135" ry="22" class="use-case"/>
-  <text x="625" y="714" class="use-case-text">Manage packing checklist</text>
+  <!-- Section 5: CHECKLIST -->
+  <rect x="240" y="580" width="770" height="80" class="section-box"/>
+  <text x="260" y="602" class="section-label">CHECKLIST</text>
 
-  <!-- ===================================================== -->
-  <!-- Section: Sharing                                       -->
-  <!-- ===================================================== -->
-  <rect x="240" y="750" width="770" height="110" class="section-box"/>
-  <text x="260" y="775" class="section-label">SHARING</text>
+  <ellipse cx="625" cy="635" rx="140" ry="22" class="use-case"/>
+  <text x="625" y="639" class="use-case-text">Manage packing checklist</text>
 
-  <ellipse cx="370" cy="820" rx="105" ry="22" class="use-case"/>
-  <text x="370" y="824" class="use-case-text">Generate share link</text>
+  <!-- Section 6: SHARING (two sub-rows) -->
+  <rect x="240" y="680" width="770" height="160" class="section-box"/>
+  <text x="260" y="702" class="section-label">SHARING</text>
 
-  <ellipse cx="595" cy="820" rx="95" ry="22" class="use-case"/>
-  <text x="595" y="824" class="use-case-text">Revoke share</text>
+  <rect x="255" y="715" width="740" height="55" class="subsection-box"/>
+  <text x="270" y="729" class="subsection-label">Owner operations</text>
+  <ellipse cx="430" cy="747" rx="105" ry="18" class="use-case"/>
+  <text x="430" y="751" class="use-case-text-small">Generate share link</text>
+  <ellipse cx="720" cy="747" rx="90" ry="18" class="use-case"/>
+  <text x="720" y="751" class="use-case-text-small">Revoke share</text>
 
-  <ellipse cx="820" cy="820" rx="105" ry="22" class="use-case-shared"/>
-  <text x="820" y="824" class="use-case-text">View shared plan</text>
+  <rect x="255" y="780" width="740" height="55" class="subsection-box"/>
+  <text x="270" y="794" class="subsection-label">Visitor access (via share token)</text>
+  <ellipse cx="450" cy="813" rx="125" ry="18" class="use-case-shared"/>
+  <text x="450" y="817" class="use-case-text-small">View shared plan (VIEW token)</text>
+  <ellipse cx="780" cy="813" rx="125" ry="18" class="use-case-shared"/>
+  <text x="780" y="817" class="use-case-text-small">Edit shared plan (EDIT token)</text>
 
-  <!-- ===================================================== -->
-  <!-- Section: Admin                                         -->
-  <!-- ===================================================== -->
-  <rect x="240" y="880" width="770" height="80" class="section-box"/>
-  <text x="260" y="905" class="section-label">ADMIN</text>
+  <!-- Section 7: ADMIN -->
+  <rect x="240" y="860" width="770" height="80" class="section-box"/>
+  <text x="260" y="882" class="section-label">ADMIN</text>
 
-  <ellipse cx="370" cy="940" rx="95" ry="22" class="use-case-admin"/>
-  <text x="370" y="944" class="use-case-text">List users</text>
+  <ellipse cx="380" cy="915" rx="85" ry="22" class="use-case-admin"/>
+  <text x="380" y="919" class="use-case-text">List users</text>
 
-  <ellipse cx="595" cy="940" rx="105" ry="22" class="use-case-admin"/>
-  <text x="595" y="944" class="use-case-text">Change user role</text>
+  <ellipse cx="600" cy="915" rx="95" ry="22" class="use-case-admin"/>
+  <text x="600" y="919" class="use-case-text">Change user role</text>
 
-  <ellipse cx="820" cy="940" rx="105" ry="22" class="use-case-admin"/>
-  <text x="820" y="944" class="use-case-text">Delete user</text>
+  <ellipse cx="820" cy="915" rx="85" ry="22" class="use-case-admin"/>
+  <text x="820" y="919" class="use-case-text">Delete user</text>
 
-  <!-- ===================================================== -->
-  <!-- Actor connections                                      -->
-  <!-- ===================================================== -->
+  <!-- ACTORS -->
+  <g transform="translate(40, 105)">
+    <circle cx="20" cy="14" r="12" class="actor"/>
+    <line x1="20" y1="26" x2="20" y2="55" class="actor"/>
+    <line x1="4"  y1="35" x2="36" y2="35" class="actor"/>
+    <line x1="20" y1="55" x2="4"  y2="80" class="actor"/>
+    <line x1="20" y1="55" x2="36" y2="80" class="actor"/>
+    <text x="20" y="100" class="actor-label" fill="#059669">Guest</text>
+  </g>
 
-  <!-- Guest → Authentication section (one line into the section) -->
-  <line x1="120" y1="170" x2="330" y2="190" class="link-guest"/>
-  <line x1="120" y1="170" x2="720" y2="190" class="link-guest"/>
+  <g transform="translate(40, 425)">
+    <circle cx="20" cy="14" r="12" class="actor"/>
+    <line x1="20" y1="26" x2="20" y2="55" class="actor"/>
+    <line x1="4"  y1="35" x2="36" y2="35" class="actor"/>
+    <line x1="20" y1="55" x2="4"  y2="80" class="actor"/>
+    <line x1="20" y1="55" x2="36" y2="80" class="actor"/>
+    <text x="20" y="100" class="actor-label" fill="#d97706">User</text>
+  </g>
 
-  <!-- User → travel/destinations/activities/finances/checklist/sharing -->
-  <line x1="120" y1="420" x2="275" y2="320" class="link-user"/>
-  <line x1="120" y1="420" x2="275" y2="460" class="link-user"/>
-  <line x1="120" y1="420" x2="325" y2="595" class="link-user"/>
-  <line x1="120" y1="420" x2="490" y2="710" class="link-user"/>
-  <line x1="120" y1="420" x2="265" y2="820" class="link-user"/>
+  <g transform="translate(40, 825)">
+    <circle cx="20" cy="14" r="12" class="actor"/>
+    <line x1="20" y1="26" x2="20" y2="55" class="actor"/>
+    <line x1="4"  y1="35" x2="36" y2="35" class="actor"/>
+    <line x1="20" y1="55" x2="4"  y2="80" class="actor"/>
+    <line x1="20" y1="55" x2="36" y2="80" class="actor"/>
+    <text x="20" y="100" class="actor-label" fill="#dc2626">Admin</text>
+  </g>
 
-  <!-- Admin → admin section -->
-  <line x1="120" y1="820" x2="275" y2="940" class="link-admin"/>
-  <line x1="120" y1="820" x2="490" y2="940" class="link-admin"/>
-  <line x1="120" y1="820" x2="715" y2="940" class="link-admin"/>
+  <g transform="translate(1095, 755)">
+    <circle cx="20" cy="14" r="12" class="actor"/>
+    <line x1="20" y1="26" x2="20" y2="55" class="actor"/>
+    <line x1="4"  y1="35" x2="36" y2="35" class="actor"/>
+    <line x1="20" y1="55" x2="4"  y2="80" class="actor"/>
+    <line x1="20" y1="55" x2="36" y2="80" class="actor"/>
+    <text x="20" y="100" class="actor-label" fill="#2563eb">External</text>
+    <text x="20" y="115" class="actor-label" fill="#2563eb">Viewer</text>
+  </g>
 
-  <!-- External Viewer → View shared plan -->
-  <line x1="1080" y1="630" x2="925" y2="820" class="link-external"/>
+  <!-- Actor generalization («extends») -->
+  <line x1="60" y1="420" x2="60" y2="195" class="extends-arrow" marker-end="url(#extends-arrow)"/>
+  <text x="70" y="310" class="extends-label">«extends»</text>
 
-  <!-- ===================================================== -->
-  <!-- Legend                                                 -->
-  <!-- ===================================================== -->
-  <g transform="translate(50, 990)">
+  <line x1="60" y1="820" x2="60" y2="515" class="extends-arrow" marker-end="url(#extends-arrow)"/>
+  <text x="70" y="675" class="extends-label">«extends»</text>
+
+  <!-- Actor → section connections (one line per section) -->
+  <line x1="80" y1="145" x2="240" y2="175" class="link-guest"/>
+
+  <line x1="80" y1="465" x2="240" y2="290" class="link-user"/>
+  <line x1="80" y1="465" x2="240" y2="410" class="link-user"/>
+  <line x1="80" y1="465" x2="240" y2="520" class="link-user"/>
+  <line x1="80" y1="465" x2="240" y2="620" class="link-user"/>
+  <line x1="80" y1="465" x2="240" y2="745" class="link-user"/>
+
+  <line x1="80" y1="865" x2="240" y2="900" class="link-admin"/>
+
+  <line x1="1095" y1="795" x2="995" y2="813" class="link-external"/>
+
+  <!-- Legend -->
+  <g transform="translate(60, 1010)">
     <line x1="0" y1="-2" x2="30" y2="-2" class="link-guest"/>
     <text x="36" y="2" font-size="11" fill="#059669">Guest</text>
 
     <line x1="100" y1="-2" x2="130" y2="-2" class="link-user"/>
-    <text x="136" y="2" font-size="11" fill="#d97706">User (extends Guest)</text>
+    <text x="136" y="2" font-size="11" fill="#d97706">User · extends Guest</text>
 
     <line x1="290" y1="-2" x2="320" y2="-2" class="link-admin"/>
-    <text x="326" y="2" font-size="11" fill="#dc2626">Admin (extends User)</text>
+    <text x="326" y="2" font-size="11" fill="#dc2626">Admin · extends User</text>
 
-    <line x1="490" y1="-2" x2="520" y2="-2" class="link-external"/>
-    <text x="526" y="2" font-size="11" fill="#2563eb">External Viewer</text>
+    <line x1="480" y1="-2" x2="510" y2="-2" class="link-external"/>
+    <text x="516" y="2" font-size="11" fill="#2563eb">External Viewer (token holder)</text>
 
-    <line x1="650" y1="-2" x2="680" y2="-2" class="extends-arrow" marker-end="url(#extends-arrow)"/>
-    <text x="686" y="2" font-size="11" fill="#6b7280">«extends» (UML actor inheritance)</text>
+    <line x1="730" y1="-2" x2="760" y2="-2" class="extends-arrow" marker-end="url(#extends-arrow)"/>
+    <text x="766" y="2" font-size="11" fill="#6b7280">«extends» — UML actor generalization</text>
   </g>
+
+  <text x="60" y="1050" font-size="10" fill="#64748b" font-style="italic">
+    Aktor povezan sa lijevom ivicom sekcije — može koristiti sve use case-ove unutar te sekcije.
+  </text>
 
 </svg>
