@@ -20,8 +20,9 @@ namespace AuthService.Services
 
         public async Task<AuthResult> LoginAsync(LoginDTO dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Password))
-                return new AuthResult { Success = false, Error = "Password is required." };
+            // Do not disclose whether the username/email exists or the password was wrong:
+            // every failure path returns the same generic message.
+            const string GenericError = "Invalid username/email or password.";
 
             User? user = null;
 
@@ -31,11 +32,13 @@ namespace AuthService.Services
             if (user == null && !string.IsNullOrWhiteSpace(dto.Email))
                 user = await _userRepository.GetByEmailAsync(dto.Email);
 
-            if (user == null)
-                return new AuthResult { Success = false, Error = "User does not exist." };
+            // Always run BCrypt verify against a real-looking hash so the response time
+            // does not reveal whether the account exists (timing side-channel).
+            var hashToCheck = user?.PasswordHash ?? "$2a$11$0000000000000000000000000000000000000000000000000000u";
+            var passwordOk = PasswordHasher.Verify(dto.Password ?? string.Empty, hashToCheck);
 
-            if (!PasswordHasher.Verify(dto.Password, user.PasswordHash))
-                return new AuthResult { Success = false, Error = "Invalid password." };
+            if (user == null || !passwordOk)
+                return new AuthResult { Success = false, Error = GenericError };
 
             var token = _tokenGenerator.Generate(user);
 
