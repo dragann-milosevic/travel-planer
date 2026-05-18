@@ -27,22 +27,26 @@ function ExpenseCard({ expense, onEdit, onDelete, readOnly = false }) {
                         <span className="fw-bold text-primary">
                             {Number(expense.amount).toFixed(2)} €
                         </span>
-                        {!readOnly && (
+                        {!readOnly && (onEdit || onDelete) && (
                             <div className="btn-group btn-group-sm">
-                                <button
-                                    className="btn btn-outline-secondary"
-                                    onClick={() => onEdit(expense)}
-                                    title="Izmeni"
-                                >
-                                    <i className="bi bi-pencil"></i>
-                                </button>
-                                <button
-                                    className="btn btn-outline-danger"
-                                    onClick={() => onDelete(expense)}
-                                    title="Obriši"
-                                >
-                                    <i className="bi bi-trash"></i>
-                                </button>
+                                {onEdit && (
+                                    <button
+                                        className="btn btn-outline-secondary"
+                                        onClick={() => onEdit(expense)}
+                                        title="Izmeni"
+                                    >
+                                        <i className="bi bi-pencil"></i>
+                                    </button>
+                                )}
+                                {onDelete && (
+                                    <button
+                                        className="btn btn-outline-danger"
+                                        onClick={() => onDelete(expense)}
+                                        title="Obriši"
+                                    >
+                                        <i className="bi bi-trash"></i>
+                                    </button>
+                                )}
                             </div>
                         )}
                     </div>

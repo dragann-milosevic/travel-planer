@@ -53,22 +53,26 @@ function ActivityCard({ activity, onEdit, onDelete, readOnly = false }) {
                             <p className="mt-2 mb-0 small">{activity.description}</p>
                         )}
                     </div>
-                    {!readOnly && (
+                    {!readOnly && (onEdit || onDelete) && (
                         <div className="btn-group btn-group-sm">
-                            <button
-                                className="btn btn-outline-secondary"
-                                onClick={() => onEdit(activity)}
-                                title="Izmeni"
-                            >
-                                <i className="bi bi-pencil"></i>
-                            </button>
-                            <button
-                                className="btn btn-outline-danger"
-                                onClick={() => onDelete(activity)}
-                                title="Obriši"
-                            >
-                                <i className="bi bi-trash"></i>
-                            </button>
+                            {onEdit && (
+                                <button
+                                    className="btn btn-outline-secondary"
+                                    onClick={() => onEdit(activity)}
+                                    title="Izmeni"
+                                >
+                                    <i className="bi bi-pencil"></i>
+                                </button>
+                            )}
+                            {onDelete && (
+                                <button
+                                    className="btn btn-outline-danger"
+                                    onClick={() => onDelete(activity)}
+                                    title="Obriši"
+                                >
+                                    <i className="bi bi-trash"></i>
+                                </button>
+                            )}
                         </div>
                     )}
                 </div>
