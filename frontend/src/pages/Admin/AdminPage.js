@@ -1,9 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import userService from "../../services/userService/userService";
 import { UserRole } from "../../models/User";
+import { AuthContext } from "../../context/authContext";
 import Modal from "../../components/Modal/Modal";
 
 function AdminPage() {
+    const { userId } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -15,13 +17,15 @@ function AdminPage() {
         setLoading(true);
         try {
             const data = await userService.getAll();
-            setUsers(data);
+            // Admin should not see or manage their own account in this list.
+            const currentId = userId != null ? String(userId) : null;
+            setUsers(data.filter(u => String(u.id) !== currentId));
         } catch {
             setError("Greška prilikom učitavanja korisnika.");
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [userId]);
 
     useEffect(() => { load(); }, [load]);
 

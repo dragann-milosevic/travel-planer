@@ -32,7 +32,8 @@ class User {
             lastName: dto.lastName,
             email: dto.email,
             userName: dto.userName,
-            role: dto.role
+            // Backend serializes enum as integer (User=1, Admin=2); normalize to string.
+            role: dto.role === 2 || dto.role === "Admin" ? UserRole.Admin : UserRole.User
         });
     }
 }
