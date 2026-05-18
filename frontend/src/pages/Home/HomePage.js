@@ -57,7 +57,7 @@ function HomePage() {
             setError(result.error || "Greška prilikom čuvanja.");
             return;
         }
-        setInfo(plan.id ? "Plan je izmijenjen." : "Plan je kreiran.");
+        setInfo(plan.id ? "Plan je izmenjen." : "Plan je kreiran.");
         closeForm();
         loadPlans();
     }
@@ -67,7 +67,7 @@ function HomePage() {
         const result = await travelPlanService.remove(confirmDelete.id);
         setConfirmDelete(null);
         if (!result.success) {
-            setError(result.error || "Brisanje nije uspjelo.");
+            setError(result.error || "Brisanje nije uspelo.");
             return;
         }
         setInfo("Plan je obrisan.");
@@ -136,7 +136,7 @@ function HomePage() {
             <Modal
                 isOpen={showForm}
                 onClose={closeForm}
-                title={editing ? "Izmijeni plan putovanja" : "Novi plan putovanja"}
+                title={editing ? "Izmeni plan putovanja" : "Novi plan putovanja"}
                 size="lg"
             >
                 <TravelPlanForm

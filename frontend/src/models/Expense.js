@@ -9,7 +9,7 @@ export const ExpenseCategory = {
 
 export const ExpenseCategoryLabel = {
     1: "Prevoz",
-    2: "Smještaj",
+    2: "Smeštaj",
     3: "Hrana",
     4: "Ulaznice",
     5: "Kupovina",

@@ -71,15 +71,15 @@ function ActivityCalendar({ activities, onSelectActivity, defaultDate = null }) 
                 onSelectEvent={(event) => onSelectActivity && onSelectActivity(event.resource)}
                 views={["month", "week", "day", "agenda"]}
                 messages={{
-                    next: "Sljedeće",
+                    next: "Sledeće",
                     previous: "Prethodno",
                     today: "Danas",
-                    month: "Mjesec",
+                    month: "Mesec",
                     week: "Sedmica",
                     day: "Dan",
                     agenda: "Lista",
                     date: "Datum",
-                    time: "Vrijeme",
+                    time: "Vreme",
                     event: "Aktivnost",
                     noEventsInRange: "Nema aktivnosti u izabranom periodu."
                 }}

@@ -86,7 +86,7 @@ class TravelPlan {
             errors.endDate = "Krajnji datum je obavezan.";
         if (this.startDate && this.endDate &&
             new Date(this.endDate) < new Date(this.startDate))
-            errors.endDate = "Krajnji datum ne može biti prije početnog datuma.";
+            errors.endDate = "Krajnji datum ne može biti pre početnog datuma.";
 
         const budgetStr = this.budget === null || this.budget === undefined ? "" : String(this.budget).trim();
         if (budgetStr === "" || isNaN(Number(budgetStr)))

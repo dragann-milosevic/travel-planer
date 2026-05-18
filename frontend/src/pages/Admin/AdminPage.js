@@ -28,7 +28,7 @@ function AdminPage() {
     async function handleRoleChange(user, newRole) {
         const result = await userService.updateRole(user.id, newRole);
         if (!result.success) {
-            setError(result.error || "Promjena uloge nije uspjela.");
+            setError(result.error || "Promena uloge nije uspela.");
             return;
         }
         setInfo(`Uloga korisnika ${user.userName} je promijenjena.`);
@@ -40,7 +40,7 @@ function AdminPage() {
         const result = await userService.remove(confirmDelete.id);
         setConfirmDelete(null);
         if (!result.success) {
-            setError(result.error || "Brisanje nije uspjelo.");
+            setError(result.error || "Brisanje nije uspelo.");
             return;
         }
         setInfo("Korisnik je obrisan.");

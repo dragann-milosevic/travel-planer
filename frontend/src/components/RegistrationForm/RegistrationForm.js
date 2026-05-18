@@ -32,10 +32,10 @@ function RegistrationForm() {
         setSubmitting(false);
 
         if (!result.ok) {
-            setServerError(result.error || "Registracija nije uspjela.");
+            setServerError(result.error || "Registracija nije uspela.");
             return;
         }
-        setSuccess("Registracija uspješna. Preusmjeravanje na prijavu...");
+        setSuccess("Registracija uspešna. Preusmeravanje na prijavu...");
         setTimeout(() => navigate("/login"), 1200);
     }
 

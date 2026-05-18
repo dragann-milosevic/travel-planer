@@ -20,7 +20,7 @@ function Checklist({ travelPlanId, items, onChange, readOnly = false }) {
         const result = await checklistService.create(travelPlanId, item);
         setSubmitting(false);
         if (!result.success) {
-            setError(result.error || "Dodavanje nije uspjelo.");
+            setError(result.error || "Dodavanje nije uspelo.");
             return;
         }
         setNewText("");
@@ -30,7 +30,7 @@ function Checklist({ travelPlanId, items, onChange, readOnly = false }) {
     async function handleToggle(item) {
         const result = await checklistService.toggle(item);
         if (!result.success) {
-            setError(result.error || "Izmjena nije uspjela.");
+            setError(result.error || "Izmena nije uspela.");
             return;
         }
         onChange && onChange();
@@ -39,7 +39,7 @@ function Checklist({ travelPlanId, items, onChange, readOnly = false }) {
     async function handleDelete(item) {
         const result = await checklistService.remove(travelPlanId, item.id);
         if (!result.success) {
-            setError(result.error || "Brisanje nije uspjelo.");
+            setError(result.error || "Brisanje nije uspelo.");
             return;
         }
         onChange && onChange();

@@ -51,10 +51,10 @@ class Destination {
             errors.departureDate = "Datum odlaska je obavezan.";
         if (this.arrivalDate && this.departureDate &&
             new Date(this.departureDate) < new Date(this.arrivalDate))
-            errors.departureDate = "Datum odlaska ne može biti prije datuma dolaska.";
+            errors.departureDate = "Datum odlaska ne može biti pre datuma dolaska.";
         if (planStartDate && this.arrivalDate &&
             new Date(this.arrivalDate) < new Date(toDateInputValue(planStartDate)))
-            errors.arrivalDate = "Datum dolaska je prije početka putovanja.";
+            errors.arrivalDate = "Datum dolaska je pre početka putovanja.";
         if (planEndDate && this.departureDate &&
             new Date(this.departureDate) > new Date(toDateInputValue(planEndDate)))
             errors.departureDate = "Datum odlaska je nakon kraja putovanja.";

@@ -70,7 +70,7 @@ class Activity {
             errors.date = "Datum aktivnosti je obavezan.";
         if (planStartDate && this.date &&
             new Date(this.date) < new Date(toDateInputValue(planStartDate)))
-            errors.date = "Datum aktivnosti je prije početka putovanja.";
+            errors.date = "Datum aktivnosti je pre početka putovanja.";
         if (planEndDate && this.date &&
             new Date(this.date) > new Date(toDateInputValue(planEndDate)))
             errors.date = "Datum aktivnosti je nakon kraja putovanja.";

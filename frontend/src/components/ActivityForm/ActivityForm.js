@@ -72,7 +72,7 @@ function ActivityForm({
                 </div>
                 <div className="col-md-6">
                     <FormField
-                        label="Vrijeme"
+                        label="Vreme"
                         name="time"
                         type="time"
                         value={model.time}

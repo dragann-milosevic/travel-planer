@@ -62,7 +62,7 @@ function SharedPlanPage() {
             <div className="alert alert-info d-flex align-items-center justify-content-between">
                 <div>
                     <i className="bi bi-share me-2"></i>
-                    Pregledate dijeljeni plan putovanja
+                    Pregledate deljeni plan putovanja
                 </div>
                 <span className="badge bg-primary">
                     {ShareAccessTypeLabel[accessType] || "Pregled"}

@@ -58,7 +58,7 @@ function ActivityCard({ activity, onEdit, onDelete, readOnly = false }) {
                             <button
                                 className="btn btn-outline-secondary"
                                 onClick={() => onEdit(activity)}
-                                title="Izmijeni"
+                                title="Izmeni"
                             >
                                 <i className="bi bi-pencil"></i>
                             </button>

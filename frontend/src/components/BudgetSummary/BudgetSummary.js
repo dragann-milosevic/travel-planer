@@ -64,9 +64,14 @@ function BudgetSummary({ budget, expenses }) {
                                         dataKey="value"
                                         nameKey="name"
                                         cx="50%"
-                                        cy="50%"
+                                        cy="45%"
                                         outerRadius={70}
-                                        label={(entry) => entry.name}
+                                        labelLine={false}
+                                        label={({ percent }) =>
+                                            percent > 0.05
+                                                ? `${Math.round(percent * 100)}%`
+                                                : ""
+                                        }
                                     >
                                         {chartData.map((_, idx) => (
                                             <Cell
@@ -78,7 +83,12 @@ function BudgetSummary({ budget, expenses }) {
                                     <Tooltip
                                         formatter={(v) => `${Number(v).toFixed(2)} €`}
                                     />
-                                    <Legend />
+                                    <Legend
+                                        verticalAlign="bottom"
+                                        height={36}
+                                        iconType="circle"
+                                        wrapperStyle={{ fontSize: "12px" }}
+                                    />
                                 </PieChart>
                             </ResponsiveContainer>
                         ) : (

@@ -39,7 +39,7 @@ function ShareDialog({ travelPlanId }) {
         const result = await shareService.create(travelPlanId, accessType);
         setGenerating(false);
         if (!result.success) {
-            setError(result.error || "Generisanje linka nije uspjelo.");
+            setError(result.error || "Generisanje linka nije uspelo.");
             return;
         }
         setActiveLink(result.link);
@@ -49,7 +49,7 @@ function ShareDialog({ travelPlanId }) {
     async function handleRevoke(link) {
         const result = await shareService.revoke(travelPlanId, link.id);
         if (!result.success) {
-            setError(result.error || "Brisanje linka nije uspjelo.");
+            setError(result.error || "Brisanje linka nije uspelo.");
             return;
         }
         if (activeLink && activeLink.id === link.id) setActiveLink(null);
@@ -77,7 +77,7 @@ function ShareDialog({ travelPlanId }) {
 
             <div className="card mb-3">
                 <div className="card-body">
-                    <h6 className="mb-3">Generiši novi link za dijeljenje</h6>
+                    <h6 className="mb-3">Generiši novi link za deljenje</h6>
                     <div className="d-flex gap-2 align-items-end">
                         <div className="flex-grow-1">
                             <label className="form-label">Tip pristupa</label>

@@ -53,7 +53,7 @@ function TravelPlanCard({ plan, onEdit, onDelete }) {
                         Detalji
                     </button>
                     <button className="btn btn-sm btn-outline-secondary" onClick={handleEdit}>
-                        Izmijeni
+                        Izmeni
                     </button>
                     <button className="btn btn-sm btn-outline-danger" onClick={handleDelete}>
                         Obriši

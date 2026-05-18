@@ -116,14 +116,14 @@ function TravelPlanDetailsPage() {
             return;
         }
         setEditingPlan(false);
-        setInfo("Plan je izmijenjen.");
+        setInfo("Plan je izmenjen.");
         loadPlan();
     }
 
     async function handleDeletePlan() {
         const result = await travelPlanService.remove(planId);
         if (!result.success) {
-            setError(result.error || "Brisanje nije uspjelo.");
+            setError(result.error || "Brisanje nije uspelo.");
             return;
         }
         navigate("/");
@@ -141,7 +141,7 @@ function TravelPlanDetailsPage() {
         }
         setShowDestinationForm(false);
         setEditingDestination(null);
-        setInfo(dest.id ? "Destinacija je izmijenjena." : "Destinacija je dodata.");
+        setInfo(dest.id ? "Destinacija je izmenjena." : "Destinacija je dodata.");
         const fresh = await destinationService.getForPlan(planId);
         setDestinations(fresh);
     }
@@ -149,7 +149,7 @@ function TravelPlanDetailsPage() {
     async function deleteDestination(dest) {
         const result = await destinationService.remove(planId, dest.id);
         if (!result.success) {
-            setError(result.error || "Brisanje nije uspjelo.");
+            setError(result.error || "Brisanje nije uspelo.");
             return;
         }
         setInfo("Destinacija je obrisana.");
@@ -169,7 +169,7 @@ function TravelPlanDetailsPage() {
         }
         setShowActivityForm(false);
         setEditingActivity(null);
-        setInfo(act.id ? "Aktivnost je izmijenjena." : "Aktivnost je dodata.");
+        setInfo(act.id ? "Aktivnost je izmenjena." : "Aktivnost je dodata.");
         const fresh = await activityService.getForPlan(planId);
         setActivities(fresh);
     }
@@ -177,7 +177,7 @@ function TravelPlanDetailsPage() {
     async function deleteActivity(act) {
         const result = await activityService.remove(planId, act.id);
         if (!result.success) {
-            setError(result.error || "Brisanje nije uspjelo.");
+            setError(result.error || "Brisanje nije uspelo.");
             return;
         }
         setInfo("Aktivnost je obrisana.");
@@ -197,7 +197,7 @@ function TravelPlanDetailsPage() {
         }
         setShowExpenseForm(false);
         setEditingExpense(null);
-        setInfo(exp.id ? "Trošak je izmijenjen." : "Trošak je dodat.");
+        setInfo(exp.id ? "Trošak je izmenjen." : "Trošak je dodat.");
         const fresh = await expenseService.getForPlan(planId);
         setExpenses(fresh);
     }
@@ -205,7 +205,7 @@ function TravelPlanDetailsPage() {
     async function deleteExpense(exp) {
         const result = await expenseService.remove(planId, exp.id);
         if (!result.success) {
-            setError(result.error || "Brisanje nije uspjelo.");
+            setError(result.error || "Brisanje nije uspelo.");
             return;
         }
         setInfo("Trošak je obrisan.");
@@ -267,13 +267,13 @@ function TravelPlanDetailsPage() {
                         className="btn btn-outline-primary"
                         onClick={() => setShowShare(true)}
                     >
-                        <i className="bi bi-share me-1"></i>Podijeli
+                        <i className="bi bi-share me-1"></i>Podeli
                     </button>
                     <button
                         className="btn btn-outline-secondary"
                         onClick={() => setEditingPlan(true)}
                     >
-                        <i className="bi bi-pencil me-1"></i>Izmijeni
+                        <i className="bi bi-pencil me-1"></i>Izmeni
                     </button>
                     <button
                         className="btn btn-outline-danger"
@@ -497,7 +497,7 @@ function TravelPlanDetailsPage() {
             <Modal
                 isOpen={editingPlan}
                 onClose={() => setEditingPlan(false)}
-                title="Izmijeni plan putovanja"
+                title="Izmeni plan putovanja"
                 size="lg"
             >
                 <TravelPlanForm
@@ -514,7 +514,7 @@ function TravelPlanDetailsPage() {
                     setShowDestinationForm(false);
                     setEditingDestination(null);
                 }}
-                title={editingDestination ? "Izmijeni destinaciju" : "Nova destinacija"}
+                title={editingDestination ? "Izmeni destinaciju" : "Nova destinacija"}
                 size="lg"
             >
                 <DestinationForm
@@ -537,7 +537,7 @@ function TravelPlanDetailsPage() {
                     setShowActivityForm(false);
                     setEditingActivity(null);
                 }}
-                title={editingActivity ? "Izmijeni aktivnost" : "Nova aktivnost"}
+                title={editingActivity ? "Izmeni aktivnost" : "Nova aktivnost"}
                 size="lg"
             >
                 <ActivityForm
@@ -561,7 +561,7 @@ function TravelPlanDetailsPage() {
                     setShowExpenseForm(false);
                     setEditingExpense(null);
                 }}
-                title={editingExpense ? "Izmijeni trošak" : "Novi trošak"}
+                title={editingExpense ? "Izmeni trošak" : "Novi trošak"}
                 size="lg"
             >
                 <ExpenseForm
@@ -579,7 +579,7 @@ function TravelPlanDetailsPage() {
             <Modal
                 isOpen={showShare}
                 onClose={() => setShowShare(false)}
-                title="Dijeljenje plana"
+                title="Deljenje plana"
                 size="lg"
             >
                 <ShareDialog travelPlanId={planId} />
