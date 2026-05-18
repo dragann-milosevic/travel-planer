@@ -19,7 +19,7 @@ const sharedEditService = {
         };
         const result = await httpService.put(api,
             `shared-plans/${encodeURIComponent(token)}/destinations/${destination.id}`,
-            dto, false);
+            dto);
         if (!result.ok) return { success: false, error: result.error };
         return { success: true, destination: Destination.fromDto(result.data) };
     },
@@ -40,7 +40,7 @@ const sharedEditService = {
         };
         const result = await httpService.put(api,
             `shared-plans/${encodeURIComponent(token)}/activities/${activity.id}`,
-            dto, false);
+            dto);
         if (!result.ok) return { success: false, error: result.error };
         return { success: true, activity: Activity.fromDto(result.data) };
     },
@@ -58,7 +58,7 @@ const sharedEditService = {
         };
         const result = await httpService.put(api,
             `shared-plans/${encodeURIComponent(token)}/expenses/${expense.id}`,
-            dto, false);
+            dto);
         if (!result.ok) return { success: false, error: result.error };
         return { success: true, expense: Expense.fromDto(result.data) };
     },
@@ -73,7 +73,7 @@ const sharedEditService = {
         };
         const result = await httpService.put(api,
             `shared-plans/${encodeURIComponent(token)}/checklist-items/${item.id}`,
-            dto, false);
+            dto);
         if (!result.ok) return { success: false, error: result.error };
         return { success: true, item: ChecklistItem.fromDto(result.data) };
     },

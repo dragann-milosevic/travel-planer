@@ -6,11 +6,12 @@ using TravelPlanService.Interfaces;
 
 namespace TravelPlanService.Controllers
 {
-    // Public PUT endpoints for editing a plan via an EDIT share token; no JWT required.
-    // Token authorizes the request and resolves the target plan inside the service layer.
+    // PUT endpoints for editing a plan via an EDIT share token.
+    // Caller must be a logged-in user (any valid JWT) AND present a valid EDIT token.
+    // Anonymous visitors can still GET the shared plan via SharedPlansController (read-only).
     [ApiController]
     [Route("api/shared-plans/{token}")]
-    [AllowAnonymous]
+    [Authorize]
     public class SharedPlanEditController : ControllerBase
     {
         private readonly ISharedEditService _service;

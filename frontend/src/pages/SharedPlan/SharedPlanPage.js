@@ -1,7 +1,8 @@
-import { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState, useCallback, useContext } from "react";
+import { useParams, Link } from "react-router-dom";
 import shareService from "../../services/shareService/shareService";
 import sharedEditService from "../../services/sharedEditService/sharedEditService";
+import { AuthContext } from "../../context/authContext";
 import { ShareAccessType, ShareAccessTypeLabel } from "../../models/ShareLink";
 import BudgetSummary from "../../components/BudgetSummary/BudgetSummary";
 import DestinationCard from "../../components/DestinationCard/DestinationCard";
@@ -20,6 +21,7 @@ function formatDate(d) {
 
 function SharedPlanPage() {
     const { token } = useParams();
+    const { token: authToken } = useContext(AuthContext);
     const [plan, setPlan] = useState(null);
     const [accessType, setAccessType] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -31,7 +33,11 @@ function SharedPlanPage() {
     const [editingExpense, setEditingExpense] = useState(null);
     const [submitting, setSubmitting] = useState(false);
 
-    const canEdit = accessType === ShareAccessType.Edit;
+    const isLoggedIn = !!authToken;
+    // Editing requires BOTH an EDIT token AND a logged-in account on the backend.
+    const hasEditToken = accessType === ShareAccessType.Edit;
+    const canEdit = hasEditToken && isLoggedIn;
+    const needsLoginToEdit = hasEditToken && !isLoggedIn;
 
     const loadPlan = useCallback(async () => {
         const result = await shareService.openShared(token);
@@ -136,6 +142,16 @@ function SharedPlanPage() {
                     {ShareAccessTypeLabel[accessType] || "Pregled"}
                 </span>
             </div>
+
+            {needsLoginToEdit && (
+                <div className="alert alert-warning d-flex align-items-center justify-content-between">
+                    <div>
+                        <i className="bi bi-exclamation-triangle me-2"></i>
+                        Ovaj link omogućava uređivanje, ali morate biti prijavljeni da biste mogli da mijenjate podatke.
+                    </div>
+                    <Link to="/login" className="btn btn-sm btn-warning">Prijavi se</Link>
+                </div>
+            )}
 
             {error && (
                 <div className="alert alert-danger alert-dismissible">
