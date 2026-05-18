@@ -102,7 +102,7 @@ function ActivityForm({
             <div className="row">
                 <div className="col-md-6">
                     <FormField
-                        label="Procijenjeni trošak"
+                        label="Procenjeni trošak"
                         name="estimatedCost"
                         type="number"
                         value={model.estimatedCost}

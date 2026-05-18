@@ -23,11 +23,11 @@ INSERT INTO TravelPlans (OwnerId, Name, Description, StartDate, EndDate, Budget,
 VALUES (
     @OwnerId,
     'Putovanje po Evropi',
-    'Dvije nedjelje kroz cetiri grada: Bec, Prag, Berlin i Amsterdam.',
+    'Dve nedelje kroz cetiri grada: Bec, Prag, Berlin i Amsterdam.',
     '2026-07-01',
     '2026-07-15',
     2500.00,
-    'Voziti vlakom izmedju gradova. Provjeriti osiguranje.',
+    'Voziti vozom izmedju gradova. Proveriti osiguranje.',
     SYSUTCDATETIME()
 );
 
@@ -57,7 +57,7 @@ VALUES
     (@PlanId, @DestBerlin, 'Reichstag — kupola',    '2026-07-09', '14:00', 'Reichstag',             'Rezervisati slot online',          0.00, 2),
     (@PlanId, @DestBerlin, 'East Side Gallery',     '2026-07-10', '11:00', 'East Side Gallery',     'Najduzi sacuvani dio Berlinskog zida', 0.00, 1),
     (@PlanId, @DestAms,    'Kanal kruzni tour',     '2026-07-13', '15:00', 'Centraal Station',      'Brod sa audio vodicem',           22.00, 2),
-    (@PlanId, @DestAms,    'Anne Frank kuca',       '2026-07-14', '10:30', 'Prinsengracht 263',     'Karte se moraju kupiti online unaprijed', 16.00, 2);
+    (@PlanId, @DestAms,    'Anne Frank kuca',       '2026-07-14', '10:30', 'Prinsengracht 263',     'Karte se moraju kupiti online unapred', 16.00, 2);
 
 -- ---------- Expenses ----------
 -- ExpenseCategory: 1=Transport, 2=Accommodation, 3=Food, 4=Tickets, 5=Shopping, 6=Other
@@ -78,18 +78,18 @@ VALUES
 -- ---------- ChecklistItems ----------
 INSERT INTO ChecklistItems (TravelPlanId, Text, Completed)
 VALUES
-    (@PlanId, 'Pasos (provjeriti rok vazenja)', 1),
+    (@PlanId, 'Pasos (proveriti rok vazenja)', 1),
     (@PlanId, 'Putno osiguranje',                1),
     (@PlanId, 'Odstampati avio kartu',           0),
     (@PlanId, 'Odstampati hotel rezervacije',    0),
     (@PlanId, 'Punjac telefona + adapter',       0),
     (@PlanId, 'Eura u gotovini (~200 EUR)',      0),
-    (@PlanId, 'Kreditna kartica (provjeriti limit)', 0),
+    (@PlanId, 'Kreditna kartica (proveriti limit)', 0),
     (@PlanId, 'Lijekovi i first-aid kit',        0),
     (@PlanId, 'Kisobran ili kabanica',           0),
     (@PlanId, 'Power bank',                      0);
 
--- ---------- Provjera ----------
+-- ---------- Provera ----------
 PRINT '====================================';
 PRINT 'Demo plan kreiran. Id: ' + CAST(@PlanId AS NVARCHAR);
 PRINT 'Owner Id: ' + CAST(@OwnerId AS NVARCHAR);

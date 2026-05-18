@@ -35,7 +35,7 @@ function AdminPage() {
             setError(result.error || "Promena uloge nije uspela.");
             return;
         }
-        setInfo(`Uloga korisnika ${user.userName} je promijenjena.`);
+        setInfo(`Uloga korisnika ${user.userName} je promenjena.`);
         load();
     }
 

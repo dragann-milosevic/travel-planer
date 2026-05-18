@@ -147,7 +147,7 @@ function SharedPlanPage() {
                 <div className="alert alert-warning d-flex align-items-center justify-content-between">
                     <div>
                         <i className="bi bi-exclamation-triangle me-2"></i>
-                        Ovaj link omogućava uređivanje, ali morate biti prijavljeni da biste mogli da mijenjate podatke.
+                        Ovaj link omogućava uređivanje, ali morate biti prijavljeni da biste mogli da menjate podatke.
                     </div>
                     <Link to="/login" className="btn btn-sm btn-warning">Prijavi se</Link>
                 </div>
