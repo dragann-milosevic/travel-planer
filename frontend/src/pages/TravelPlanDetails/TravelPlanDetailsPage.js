@@ -5,6 +5,7 @@ import destinationService from "../../services/destinationService/destinationSer
 import activityService from "../../services/activityService/activityService";
 import expenseService from "../../services/expenseService/expenseService";
 import checklistService from "../../services/checklistService/checklistService";
+import pdfService from "../../services/pdfService/pdfService";
 
 import TravelPlanForm from "../../components/TravelPlanForm/TravelPlanForm";
 import DestinationCard from "../../components/DestinationCard/DestinationCard";
@@ -263,6 +264,12 @@ function TravelPlanDetailsPage() {
                     </div>
                 </div>
                 <div className="d-flex gap-2">
+                    <button
+                        className="btn btn-outline-success"
+                        onClick={() => pdfService.generatePlanReport(plan, destinations, activities, expenses, checklistItems)}
+                    >
+                        <i className="bi bi-file-earmark-pdf me-1"></i>PDF
+                    </button>
                     <button
                         className="btn btn-outline-primary"
                         onClick={() => setShowShare(true)}
